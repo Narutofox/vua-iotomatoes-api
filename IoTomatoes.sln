@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTomatoes.Api", "IoTomatoes.Api\IoTomatoes.Api.csproj", "{4C35985A-0DDC-45A5-939C-BC840D6796EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTomatoes.Core", "IoTomatoes.Core\IoTomatoes.Core.csproj", "{512E741C-23FC-4B22-BDB7-66F117A51F24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTomatoes.Domain", "IoTomatoes.Core\IoTomatoes.Domain.csproj", "{512E741C-23FC-4B22-BDB7-66F117A51F24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTomatoes.Service", "IoTomatoes.Service\IoTomatoes.Service.csproj", "{C2E612F6-8976-4862-9AC6-FEE9B08B2613}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTomatoes.Application", "IoTomatoes.Service\IoTomatoes.Application.csproj", "{C2E612F6-8976-4862-9AC6-FEE9B08B2613}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTomatoes.Persistence", "IoTomatoes.Persistence\IoTomatoes.Persistence.csproj", "{5CB3ADB2-0A53-4AF0-A479-281F35FC2B49}"
 EndProject

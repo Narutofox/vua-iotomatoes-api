@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IoTomatoes.Persistence.Models
+namespace IoTomatoes.Domain.Models
 {
-    public partial class Plants
+    public class Plant
     {
-        public Plants()
+        public Plant()
         {
-            FarmPlants = new HashSet<FarmPlants>();
+            FarmPlants = new HashSet<FarmPlant>();
         }
 
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace IoTomatoes.Persistence.Models
         public DateTime? DateModified { get; set; }
         public int? Version { get; set; }
 
-        public virtual PlantTypes PlantType { get; set; }
-        public virtual ICollection<FarmPlants> FarmPlants { get; set; }
+        public virtual PlantType PlantType { get; set; }
+        public virtual ICollection<FarmPlant> FarmPlants { get; set; }
     }
 }

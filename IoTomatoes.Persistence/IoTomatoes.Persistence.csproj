@@ -10,4 +10,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\Actuators.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IoTomatoes.Core\IoTomatoes.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+  </ItemGroup>
 </Project>

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IoTomatoes.Persistence.Models
+namespace IoTomatoes.Domain.Models
 {
-    public partial class Actuators
+    public class Actuator
     {
-        public Actuators()
+        public Actuator()
         {
-            FarmActutators = new HashSet<FarmActutators>();
+            FarmActutators = new HashSet<FarmActutator>();
         }
 
         public int Id { get; set; }
@@ -17,7 +17,7 @@ namespace IoTomatoes.Persistence.Models
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
 
-        public virtual ActuatorTypes ActutatorType { get; set; }
-        public virtual ICollection<FarmActutators> FarmActutators { get; set; }
+        public virtual ActuatorType ActutatorType { get; set; }
+        public virtual ICollection<FarmActutator> FarmActutators { get; set; }
     }
 }

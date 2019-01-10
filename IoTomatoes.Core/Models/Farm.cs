@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace IoTomatoes.Domain.Models
+{
+    public partial class Farm
+    {
+        public Farm()
+        {
+            FarmActutators = new HashSet<FarmActutator>();
+            FarmPlants = new HashSet<FarmPlant>();
+            FarmRuleSets = new HashSet<FarmRuleSet>();
+            FarmSensors = new HashSet<FarmSensor>();
+        }
+
+        public int Id { get; set; }
+        public int? UserId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Address { get; set; }
+        public int? CityId { get; set; }
+        public decimal? Latitude { get; set; }
+        public decimal? Longitude { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public DateTime? DateModified { get; set; }
+
+        public virtual City City { get; set; }
+        public virtual User User { get; set; }
+        public virtual ICollection<FarmActutator> FarmActutators { get; set; }
+        public virtual ICollection<FarmPlant> FarmPlants { get; set; }
+        public virtual ICollection<FarmRuleSet> FarmRuleSets { get; set; }
+        public virtual ICollection<FarmSensor> FarmSensors { get; set; }
+    }
+}

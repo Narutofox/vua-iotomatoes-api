@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IoTomatoes.Persistence.Models
+namespace IoTomatoes.Domain.Models
 {
-    public partial class ActuatorTypes
+    public class SensorType
     {
-        public ActuatorTypes()
+        public SensorType()
         {
-            Actuators = new HashSet<Actuators>();
+            Sensors = new HashSet<Sensor>();
         }
 
         public int Id { get; set; }
@@ -17,6 +17,6 @@ namespace IoTomatoes.Persistence.Models
         public DateTime? DateModified { get; set; }
         public int? Version { get; set; }
 
-        public virtual ICollection<Actuators> Actuators { get; set; }
+        public virtual ICollection<Sensor> Sensors { get; set; }
     }
 }

@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IoTomatoes.Persistence.Models
+namespace IoTomatoes.Domain.Models
 {
-    public partial class Cities
+    public class PlantType
     {
-        public Cities()
+        public PlantType()
         {
-            Farms = new HashSet<Farms>();
+            Plants = new HashSet<Plant>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
-        public string PostalCode { get; set; }
-        public int? CountryId { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public int? Version { get; set; }
 
-        public virtual Countries Country { get; set; }
-        public virtual ICollection<Farms> Farms { get; set; }
+        public virtual ICollection<Plant> Plants { get; set; }
     }
 }

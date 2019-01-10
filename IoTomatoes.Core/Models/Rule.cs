@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IoTomatoes.Persistence.Models
+namespace IoTomatoes.Domain.Models
 {
-    public partial class Countries
+    public class Rule
     {
-        public Countries()
-        {
-            Cities = new HashSet<Cities>();
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
+        public string Conditions { get; set; }
+        public int? Active { get; set; }
+        public int? RuleSetId { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
-        public int? Version { get; set; }
 
-        public virtual ICollection<Cities> Cities { get; set; }
+        public virtual RuleSet RuleSet { get; set; }
     }
 }

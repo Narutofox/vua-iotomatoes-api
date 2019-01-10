@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IoTomatoes.Persistence.Models
+namespace IoTomatoes.Domain.Models
 {
-    public partial class RuleSets
+    public class RuleSet
     {
-        public RuleSets()
+        public RuleSet()
         {
-            FarmRuleSets = new HashSet<FarmRuleSets>();
-            Rules = new HashSet<Rules>();
+            FarmRuleSets = new HashSet<FarmRuleSet>();
+            Rules = new HashSet<Rule>();
         }
 
         public int Id { get; set; }
@@ -18,7 +18,7 @@ namespace IoTomatoes.Persistence.Models
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
 
-        public virtual ICollection<FarmRuleSets> FarmRuleSets { get; set; }
-        public virtual ICollection<Rules> Rules { get; set; }
+        public virtual ICollection<FarmRuleSet> FarmRuleSets { get; set; }
+        public virtual ICollection<Rule> Rules { get; set; }
     }
 }

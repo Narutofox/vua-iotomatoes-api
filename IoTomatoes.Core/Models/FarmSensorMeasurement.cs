@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IoTomatoes.Persistence.Models
+namespace IoTomatoes.Domain.Models
 {
-    public partial class FarmSensorMeasurements
+    public partial class FarmSensorMeasurement
     {
         public int Id { get; set; }
         public int? FarmSensorId { get; set; }
         public decimal? Value { get; set; }
         public DateTime? DateCreated { get; set; }
 
-        public virtual FarmSensors FarmSensor { get; set; }
+        public virtual FarmSensor FarmSensor { get; set; }
     }
 }

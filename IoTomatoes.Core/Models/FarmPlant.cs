@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IoTomatoes.Persistence.Models
+namespace IoTomatoes.Domain.Models
 {
-    public partial class FarmRuleSets
+    public class FarmPlant
     {
         public int Id { get; set; }
         public int? FarmId { get; set; }
-        public int? RuleSetId { get; set; }
+        public int? PlantId { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
 
-        public virtual Farms Farm { get; set; }
-        public virtual RuleSets RuleSet { get; set; }
+        public virtual Farm Farm { get; set; }
+        public virtual Plant Plant { get; set; }
     }
 }
