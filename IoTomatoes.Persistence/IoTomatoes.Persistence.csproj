@@ -18,5 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configurations\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Commons\" />
   </ItemGroup>
 </Project>
