@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IoTomatoes.Persistence.Configurations
 {
-    public class FarmActuatorConfiguration : IEntityTypeConfiguration<FarmActutator>
+    public class FarmActuatorConfiguration : IEntityTypeConfiguration<FarmActuator>
     {
-        public void Configure(EntityTypeBuilder<FarmActutator> builder)
+        public void Configure(EntityTypeBuilder<FarmActuator> builder)
         {
             builder.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
 

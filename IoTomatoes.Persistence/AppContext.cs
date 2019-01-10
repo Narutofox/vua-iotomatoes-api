@@ -19,7 +19,7 @@ namespace IoTomatoes.Persistence
         public virtual DbSet<Actuator> Actuators { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
-        public virtual DbSet<FarmActutator> FarmActutators { get; set; }
+        public virtual DbSet<FarmActuator> FarmActutators { get; set; }
         public virtual DbSet<FarmPlant> FarmPlants { get; set; }
         public virtual DbSet<FarmRuleSet> FarmRuleSets { get; set; }
         public virtual DbSet<FarmSensorMeasurement> FarmSensorMeasurements { get; set; }
