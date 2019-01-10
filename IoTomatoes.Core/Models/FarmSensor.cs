@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace IoTomatoes.Domain.Models
 {
-    public partial class FarmSensor
+    public class FarmSensor
     {
         public FarmSensor()
         {
-            FarmSensorMeasurement = new HashSet<FarmSensorMeasurement>();
+            FarmSensorMeasurements = new HashSet<FarmSensorMeasurement>();
         }
 
         public int Id { get; set; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IoTomatoes.Domain.Models
 {
-    public partial class Farm
+    public class Farm
     {
         public Farm()
         {

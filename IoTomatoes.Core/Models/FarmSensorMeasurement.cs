@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IoTomatoes.Domain.Models
 {
-    public partial class FarmSensorMeasurement
+    public class FarmSensorMeasurement
     {
         public int Id { get; set; }
         public int? FarmSensorId { get; set; }
