@@ -7,7 +7,7 @@ namespace IoTomatoes.Domain.Models
     {
         public Actuator()
         {
-            FarmActutators = new HashSet<FarmActutator>();
+            FarmActuators = new HashSet<FarmActuator>();
         }
 
         public int Id { get; set; }
@@ -17,7 +17,7 @@ namespace IoTomatoes.Domain.Models
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
 
-        public virtual ActuatorType ActutatorType { get; set; }
-        public virtual ICollection<FarmActutator> FarmActutators { get; set; }
+        public virtual ActuatorType ActuatorType { get; set; }
+        public virtual ICollection<FarmActuator> FarmActuators { get; set; }
     }
 }

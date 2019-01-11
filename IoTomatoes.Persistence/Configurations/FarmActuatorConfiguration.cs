@@ -14,12 +14,12 @@ namespace IoTomatoes.Persistence.Configurations
             builder.Property(e => e.DateModified).HasDefaultValueSql("(getdate())");
 
             builder.HasOne(d => d.Actuator)
-                .WithMany(p => p.FarmActutators)
+                .WithMany(p => p.FarmActuators)
                 .HasForeignKey(d => d.ActuatorId)
                 .HasConstraintName("FK__FarmActut__Actua__17F790F9");
 
             builder.HasOne(d => d.Farm)
-                .WithMany(p => p.FarmActutators)
+                .WithMany(p => p.FarmActuators)
                 .HasForeignKey(d => d.FarmId)
                 .HasConstraintName("FK__FarmActut__FarmI__17036CC0");
         }

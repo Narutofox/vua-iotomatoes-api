@@ -7,7 +7,7 @@ namespace IoTomatoes.Domain.Models
     {
         public Farm()
         {
-            FarmActutators = new HashSet<FarmActutator>();
+            FarmActuators = new HashSet<FarmActuator>();
             FarmPlants = new HashSet<FarmPlant>();
             FarmRuleSets = new HashSet<FarmRuleSet>();
             FarmSensors = new HashSet<FarmSensor>();
@@ -26,7 +26,7 @@ namespace IoTomatoes.Domain.Models
 
         public virtual City City { get; set; }
         public virtual User User { get; set; }
-        public virtual ICollection<FarmActutator> FarmActutators { get; set; }
+        public virtual ICollection<FarmActuator> FarmActuators { get; set; }
         public virtual ICollection<FarmPlant> FarmPlants { get; set; }
         public virtual ICollection<FarmRuleSet> FarmRuleSets { get; set; }
         public virtual ICollection<FarmSensor> FarmSensors { get; set; }

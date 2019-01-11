@@ -17,7 +17,7 @@ namespace IoTomatoes.Persistence.Configurations
 
             builder.Property(e => e.Name).HasMaxLength(255);
 
-            builder.HasOne(d => d.ActutatorType)
+            builder.HasOne(d => d.ActuatorType)
                 .WithMany(p => p.Actuators)
                 .HasForeignKey(d => d.ActutatorTypeId)
                 .HasConstraintName("FK__Actuators__Actut__123EB7A3");
