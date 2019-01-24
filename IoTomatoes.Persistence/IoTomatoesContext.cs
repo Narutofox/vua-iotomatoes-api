@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IoTomatoes.Persistence
 {
-    public class AppContext : DbContext
+    public class IoTomatoesContext : DbContext
     {
-        public AppContext()
+        public IoTomatoesContext()
         {
         }
 
-        public AppContext(DbContextOptions<AppContext> options)
+        public IoTomatoesContext(DbContextOptions<IoTomatoesContext> options)
             : base(options)
         {
         }
@@ -45,7 +45,7 @@ namespace IoTomatoes.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(IoTomatoesContext).Assembly);
         }
     }
 }

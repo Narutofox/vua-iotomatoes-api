@@ -7,7 +7,7 @@ namespace IoTomatoes.Persistence.Repositories
 {
     public class SensorTypeRepository : GenericRepository<SensorType>, ISensorTypeRepository
     {
-        public SensorTypeRepository(AppContext context) : base(context)
+        public SensorTypeRepository(IoTomatoesContext context) : base(context)
         {
         }
     }

@@ -7,6 +7,6 @@ namespace IoTomatoes.Persistence.Repositories
 {
     public class ActuatorRepository : GenericRepository<Actuator>, IActuatorRepository
     {
-        public ActuatorRepository(AppContext context) : base(context) {}
+        public ActuatorRepository(IoTomatoesContext context) : base(context) {}
     }
 }

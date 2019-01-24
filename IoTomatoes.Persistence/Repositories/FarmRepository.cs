@@ -7,6 +7,6 @@ namespace IoTomatoes.Persistence.Repositories
 {
     public class FarmRepository : GenericRepository<Farm>, IFarmRepository
     {
-        public FarmRepository(AppContext context) : base(context){}
+        public FarmRepository(IoTomatoesContext context) : base(context){}
     }
 }

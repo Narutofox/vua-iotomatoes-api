@@ -1,10 +1,9 @@
 ﻿using System;
+using IoTomatoes.Domain.Models;
+
 namespace IoTomatoes.Domain.Interfaces
 {
-    public class IRoleRepository
+    public interface IRoleRepository : IGenericRepository<Role>
     {
-        public IRoleRepository()
-        {
-        }
     }
 }

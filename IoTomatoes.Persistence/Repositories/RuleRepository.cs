@@ -5,8 +5,8 @@ using IoTomatoes.Persistence.Commons;
 
 namespace IoTomatoes.Persistence.Repositories
 {
-    public class CityRepository : GenericRepository<City>, ICityRepository
+    public class RuleRepository : GenericRepository<Rule>, IRuleRepository
     {
-        public CityRepository(IoTomatoesContext context) : base(context) {}
+        public RuleRepository(IoTomatoesContext context) : base(context) {}
     }
 }

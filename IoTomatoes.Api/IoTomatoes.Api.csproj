@@ -6,16 +6,20 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IoTomatoes.Core\IoTomatoes.Domain.csproj" />
     <ProjectReference Include="..\IoTomatoes.Persistence\IoTomatoes.Persistence.csproj" />
     <ProjectReference Include="..\IoTomatoes.Service\IoTomatoes.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Controllers\FarmSensorsController.cs" />
+  </ItemGroup>
 </Project>

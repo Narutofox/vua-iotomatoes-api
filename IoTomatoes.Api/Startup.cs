@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using IoTomatoes.Persistence;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using IoTomatoes.Application.Interfaces;
+using IoTomatoes.Application.Services;
+using AutoMapper;
+using IoTomatoes.Domain.Interfaces;
+using IoTomatoes.Persistence.Repositories;
 
 namespace IoTomatoes.Api
 {
@@ -28,30 +28,29 @@ namespace IoTomatoes.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            JsonConvert.DefaultSettings = () =>
-            {
-                var settings = new JsonSerializerSettings();
-                settings.Formatting = Formatting.Indented;
-                settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                return settings;
-            };
+            var connectionString = Configuration.GetConnectionString("IoTomatoesDatabase");
+            services.AddDbContext<IoTomatoesContext>(options => options.UseSqlServer(connectionString));
 
-            var csBuilder = new SqlConnectionStringBuilder(
-           Configuration.GetConnectionString("IoTomatoesDatabase2"));
+            services.AddTransient<IFarmRepository, FarmRepository>();
+            services.AddTransient<IFarmService, FarmService>();
 
+            services
+                .AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    var serializer = options.SerializerSettings;
+                    serializer.Formatting = Formatting.Indented;
+                    serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContext<Persistence.AppContext>(options =>
-            options.UseSqlServer(csBuilder.ConnectionString));
-
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                ;
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsEnvironment("Docker"))
             {
                 app.UseDeveloperExceptionPage();
             }

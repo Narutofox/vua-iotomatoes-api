@@ -1,10 +1,9 @@
 ﻿using System;
+using IoTomatoes.Domain.Models;
+
 namespace IoTomatoes.Domain.Interfaces
 {
-    public class IPlantTypeRepository
+    public interface IPlantTypeRepository : IGenericRepository<PlantType>
     {
-        public IPlantTypeRepository()
-        {
-        }
     }
 }

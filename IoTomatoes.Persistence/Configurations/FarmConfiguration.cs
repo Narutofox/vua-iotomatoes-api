@@ -28,6 +28,10 @@ namespace IoTomatoes.Persistence.Configurations
                 .HasForeignKey(d => d.CityId)
                 .HasConstraintName("FK__Farms__CityId__5812160E");
 
+            builder.HasOne(d => d.RuleSet)
+                .WithMany(p => p.Farms)
+                .HasForeignKey(d => d.RuleSetId);
+
             builder.HasOne(d => d.User)
                 .WithMany(p => p.Farms)
                 .HasForeignKey(d => d.UserId)

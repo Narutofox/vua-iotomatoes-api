@@ -4,4 +4,22 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mappings\" />
+    <Folder Include="Models\" />
+    <Folder Include="Services\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IoTomatoes.Core\IoTomatoes.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Services\FarmSensorService.cs" />
+    <Compile Remove="Models\FarmSensorDTO.cs" />
+    <Compile Remove="Interfaces\IFarmSensorService.cs" />
+    <Compile Remove="Services\IoTomatoesContext.cs" />
+  </ItemGroup>
 </Project>

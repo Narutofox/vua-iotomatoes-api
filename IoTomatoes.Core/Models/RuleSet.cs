@@ -7,7 +7,7 @@ namespace IoTomatoes.Domain.Models
     {
         public RuleSet()
         {
-            FarmRuleSets = new HashSet<FarmRuleSet>();
+            Farms = new HashSet<Farm>();
             Rules = new HashSet<Rule>();
         }
 
@@ -18,7 +18,7 @@ namespace IoTomatoes.Domain.Models
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
 
-        public virtual ICollection<FarmRuleSet> FarmRuleSets { get; set; }
+        public virtual ICollection<Farm> Farms { get; set; }
         public virtual ICollection<Rule> Rules { get; set; }
     }
 }

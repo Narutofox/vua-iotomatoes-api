@@ -7,6 +7,6 @@ namespace IoTomatoes.Persistence.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        public UserRepository(AppContext context) : base(context) {}
+        public UserRepository(IoTomatoesContext context) : base(context) {}
     }
 }

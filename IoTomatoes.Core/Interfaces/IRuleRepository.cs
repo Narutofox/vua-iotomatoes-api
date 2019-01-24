@@ -1,7 +1,9 @@
 ﻿using System;
+using IoTomatoes.Domain.Models;
+
 namespace IoTomatoes.Domain.Interfaces
 {
-    public interface IRuleRepository
+    public interface IRuleRepository : IGenericRepository<Rule>
     {
     }
 }

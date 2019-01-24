@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <Compile Remove="Models\Actuators.cs" />
+    <Compile Remove="Repositories\FarmSensorMeasurementRepository.cs" />
+    <Compile Remove="Repositories\FarmSensorRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IoTomatoes.Core\IoTomatoes.Domain.csproj" />
