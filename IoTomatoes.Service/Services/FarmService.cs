@@ -12,11 +12,13 @@ namespace IoTomatoes.Application.Services
     public class FarmService : IFarmService
     {
         private readonly IFarmRepository _farmRepository;
+        private readonly IRuleSetRepository _ruleSetRepository;
         private readonly IMapper _mapper;
 
-        public FarmService(IFarmRepository farmRepository, IMapper mapper)
+        public FarmService(IFarmRepository farmRepository, IRuleSetRepository ruleSetRepository, IMapper mapper)
         {
             _farmRepository = farmRepository;
+            _ruleSetRepository = ruleSetRepository;
             _mapper = mapper;
         }
 
@@ -36,6 +38,37 @@ namespace IoTomatoes.Application.Services
         {
             var farms = _farmRepository.GetAll();
             return farms.Select(MapFarm).ToList();
+        }
+
+        public RuleSetDTO GetRuleSet(int farmId)
+        {
+            var farm = _farmRepository.Get(farmId);
+            var ruleSet = _ruleSetRepository.Get(farm.RuleSetId.Value);
+            var rules = _ruleSetRepository.GetRules(farm.RuleSetId.Value);
+            ruleSet.Rules = rules;
+            return MapRuleSet(ruleSet);
+        }
+
+        private RuleSetDTO MapRuleSet(RuleSet ruleSet)
+        {
+            return new RuleSetDTO
+            {
+                Id = ruleSet.Id,
+                Code = ruleSet.Code,
+                Name = ruleSet.Name,
+                Rules = ruleSet.Rules.Select(MapRule).ToList()
+            };
+        }
+
+        private RuleDTO MapRule(Rule rule)
+        {
+            return new RuleDTO
+            {
+                Code = rule.Code.TrimEnd(),
+                Conditions = rule.Conditions,
+                Active = rule.Active.Value != 0,
+                RuleSetId = rule.RuleSetId.Value
+            };
         }
 
         private FarmDTO MapFarm(Farm farm)

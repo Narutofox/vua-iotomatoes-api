@@ -8,5 +8,6 @@ namespace IoTomatoes.Application.Interfaces
     {
         FarmDTO Get(int farmId);
         List<FarmDTO> GetAll();
+        RuleSetDTO GetRuleSet(int farmId);
     }
 }

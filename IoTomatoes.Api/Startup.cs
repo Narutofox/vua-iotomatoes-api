@@ -31,6 +31,7 @@ namespace IoTomatoes.Api
             var connectionString = Configuration.GetConnectionString("IoTomatoesDatabase");
             services.AddDbContext<IoTomatoesContext>(options => options.UseSqlServer(connectionString));
 
+            services.AddTransient<IRuleSetRepository, RuleSetRepository>();
             services.AddTransient<IFarmRepository, FarmRepository>();
             services.AddTransient<IFarmService, FarmService>();
 

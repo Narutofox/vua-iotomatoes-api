@@ -34,6 +34,12 @@ namespace IoTomatoes.Api.Controllers
             return _farmService.Get(id);
         }
 
+        [HttpGet("{id}/ruleset")]
+        public RuleSetDTO GetRuleSet(int id)
+        {
+            return _farmService.GetRuleSet(id);
+        }
+
         // POST api/farms
         [HttpPost]
         public void Post([FromBody]string value)

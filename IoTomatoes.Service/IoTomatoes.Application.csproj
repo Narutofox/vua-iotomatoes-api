@@ -22,4 +22,7 @@
     <Compile Remove="Interfaces\IFarmSensorService.cs" />
     <Compile Remove="Services\IoTomatoesContext.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Models\RuleSetDTO.json" />
+  </ItemGroup>
 </Project>
