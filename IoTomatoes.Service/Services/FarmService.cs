@@ -51,24 +51,22 @@ namespace IoTomatoes.Application.Services
 
         private RuleSetDTO MapRuleSet(RuleSet ruleSet)
         {
-            return new RuleSetDTO
+            var _ruleSet = new RuleSetDTO
             {
                 Id = ruleSet.Id,
                 Code = ruleSet.Code,
                 Name = ruleSet.Name,
-                Rules = ruleSet.Rules.Select(MapRule).ToList()
             };
-        }
 
-        private RuleDTO MapRule(Rule rule)
-        {
-            return new RuleDTO
+            var rules = new Dictionary<string, string>();
+
+            foreach(var rule in ruleSet.Rules)
             {
-                Code = rule.Code.TrimEnd(),
-                Conditions = rule.Conditions,
-                Active = rule.Active.Value != 0,
-                RuleSetId = rule.RuleSetId.Value
-            };
+                rules.Add(rule.Code.ToUpper().TrimEnd(), rule.Conditions);
+            }
+
+            _ruleSet.Rules = rules;
+            return _ruleSet;
         }
 
         private FarmDTO MapFarm(Farm farm)
