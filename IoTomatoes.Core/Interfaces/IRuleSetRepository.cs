@@ -6,6 +6,6 @@ namespace IoTomatoes.Domain.Interfaces
 {
     public interface IRuleSetRepository : IGenericRepository<RuleSet>
     {
-        List<Rule> GetRules(int ruleSetId);
+        RuleSet GetByFarm(int farmId);
     }
 }

@@ -4,9 +4,8 @@ using IoTomatoes.Application.Models;
 
 namespace IoTomatoes.Application.Interfaces
 {
-    public interface IFarmService
+    public interface IRuleService
     {
-        FarmDTO Get(int id);
-        List<FarmDTO> GetAll();
+        Dictionary<string, string> GetDictionary(List<RuleDTO> rules);
     }
 }

@@ -14,10 +14,17 @@ namespace IoTomatoes.Api.Controllers
     public class FarmsController : Controller
     {
         private readonly IFarmService _farmService;
+        private readonly IRuleSetService _ruleSetService;
+        private readonly IRuleService _ruleService;
 
-        public FarmsController(IFarmService farmService)
+        public FarmsController(
+            IFarmService farmService, 
+            IRuleSetService ruleSetService, 
+            IRuleService ruleService)
         {
             _farmService = farmService;
+            _ruleSetService = ruleSetService;
+            _ruleService = ruleService;
         }
 
         // GET api/farms
@@ -27,17 +34,25 @@ namespace IoTomatoes.Api.Controllers
             return _farmService.GetAll();
         }
 
-        // GET: api/farms/id
+        // GET: api/farms/4
         [HttpGet("{id}")]
         public FarmDTO Get(int id)
         {
             return _farmService.Get(id);
         }
 
+        // GET: api/farms/4/ruleset
         [HttpGet("{id}/ruleset")]
-        public RuleSetDTO GetRuleSet(int id)
+        public Dictionary<string, string> GetRuleSet(int id)
         {
-            return _farmService.GetRuleSet(id);
+            var ruleSet = _ruleSetService.GetByFarm(id);
+
+            if(ruleSet != null)
+            {
+                return _ruleService.GetDictionary(ruleSet.Rules);
+            }
+
+            return null;
         }
 
         // POST api/farms

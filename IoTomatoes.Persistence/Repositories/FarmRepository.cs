@@ -1,12 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using IoTomatoes.Domain.Interfaces;
 using IoTomatoes.Domain.Models;
 using IoTomatoes.Persistence.Commons;
+using Microsoft.EntityFrameworkCore;
 
 namespace IoTomatoes.Persistence.Repositories
 {
     public class FarmRepository : GenericRepository<Farm>, IFarmRepository
     {
+        private IoTomatoesContext Context => (IoTomatoesContext) _context;
         public FarmRepository(IoTomatoesContext context) : base(context){}
+
+        public override Farm Get(int id)
+        {
+            return Context.Farms
+                .Include(x => x.City)
+                .Include(x => x.RuleSet)
+                .ThenInclude(x => x.Rules)
+                .FirstOrDefault(x => x.Id.Equals(id));
+        }
+
+        public override List<Farm> GetAll()
+        {
+            return Context.Farms
+                .Include(x => x.City)
+                .ToList();
+        }
     }
 }

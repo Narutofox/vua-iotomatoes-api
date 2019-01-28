@@ -10,15 +10,23 @@ namespace IoTomatoes.Persistence.Repositories
 {
     public class RuleSetRepository : GenericRepository<RuleSet>, IRuleSetRepository
     {
-        public IoTomatoesContext Context => (IoTomatoesContext) _context;
+        private IoTomatoesContext Context => (IoTomatoesContext) _context;
 
-        public RuleSetRepository(IoTomatoesContext context) : base(context)
-        {
-        }
+        public RuleSetRepository(IoTomatoesContext context) : base(context){}
 
-        public List<Rule> GetRules(int ruleSetId)
+        public RuleSet GetByFarm(int farmId)
         {
-            return Context.Rules.Where(x => x.RuleSetId.Equals(ruleSetId)).ToList();
+            var farm = Context.Farms
+                .Include(x => x.RuleSet)
+                .ThenInclude(x => x.Rules)
+                .FirstOrDefault(x => x.Id.Equals(farmId));
+
+            if(farm != null)
+            {
+                return farm.RuleSet;
+            }
+
+            return null;
         }
     }
 }
