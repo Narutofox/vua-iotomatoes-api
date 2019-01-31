@@ -15,6 +15,12 @@ namespace IoTomatoes.Persistence.Configurations
 
             builder.Property(e => e.DateModified).HasDefaultValueSql("(getdate())");
 
+            builder.Property(e => e.FirstName).HasMaxLength(255);
+
+            builder.Property(e => e.LastName).HasMaxLength(255);
+
+            builder.Property(e => e.Email).HasMaxLength(255);
+
             builder.Property(e => e.Password).HasMaxLength(255);
 
             builder.Property(e => e.Username).HasMaxLength(255);

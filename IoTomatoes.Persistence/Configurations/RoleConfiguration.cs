@@ -10,7 +10,7 @@ namespace IoTomatoes.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Role> builder)
         {
             builder.Property(e => e.Code)
-                    .HasMaxLength(3)
+                    .HasMaxLength(1)
                     .IsUnicode(false);
 
             builder.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");

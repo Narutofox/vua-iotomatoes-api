@@ -40,6 +40,9 @@ namespace IoTomatoes.Api
             services.AddTransient<IFarmRepository, FarmRepository>();
             services.AddTransient<IFarmService, FarmService>();
 
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
+
             services
                 .AddMvc()
                 .AddJsonOptions(options =>

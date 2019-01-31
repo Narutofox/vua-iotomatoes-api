@@ -9,9 +9,10 @@ namespace IoTomatoes.Application.Mappings
     {
         public AutoMapperProfile()
         {
-            CreateMap<Rule, RuleDTO>();
-            CreateMap<RuleSet, RuleSetDTO>();
-            CreateMap<Farm, FarmDTO>();
+            CreateMap<Rule, RuleDTO>().ReverseMap();
+            CreateMap<RuleSet, RuleSetDTO>().ReverseMap();
+            CreateMap<Farm, FarmDTO>().ReverseMap();
+            CreateMap<User, UserDTO>().ReverseMap();
         }
     }
 }
