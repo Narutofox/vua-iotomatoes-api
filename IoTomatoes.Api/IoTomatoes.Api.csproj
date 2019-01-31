@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IoTomatoes.Persistence\IoTomatoes.Persistence.csproj" />
-    <ProjectReference Include="..\IoTomatoes.Service\IoTomatoes.Application.csproj" />
+    <ProjectReference Include="..\IoTomatoes.Application\IoTomatoes.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
