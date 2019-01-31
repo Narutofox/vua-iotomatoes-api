@@ -53,6 +53,16 @@ namespace IoTomatoes.Api
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("VueCors", policy =>
+                {
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                    policy.AllowAnyOrigin();
+                });
+            });
+
             services.AddAutoMapper();
         }
 
@@ -68,6 +78,7 @@ namespace IoTomatoes.Api
                 app.UseHsts();
             }
 
+            app.UseCors("VueCors");
             //app.UseHttpsRedirection();
             app.UseMvc();
         }

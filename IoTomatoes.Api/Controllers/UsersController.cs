@@ -35,7 +35,7 @@ namespace IoTomatoes.Api.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<UserDTO> Login(UserDTO user)
+        public ActionResult<UserDTO> Login([FromBody] UserDTO user)
         {
             var loggedIn = _userService.Login(user.Username, user.Password);
 
