@@ -37,5 +37,27 @@ namespace IoTomatoes.Application.Services
             var farms = _farmRepository.GetAll();
             return farms.Select(farm => _mapper.Map<FarmDTO>(farm)).ToList();
         }
+
+        public void Create(FarmDTO farm)
+        {
+            var createFarm = _mapper.Map<Farm>(farm);
+
+            _farmRepository.Add(createFarm);
+            _farmRepository.Commit();
+        }
+        public void Update(FarmDTO farm)
+        {
+            var updateFarm = _mapper.Map<Farm>(farm);
+
+            _farmRepository.Update(updateFarm);
+            _farmRepository.Commit();
+        }
+
+        public void Remove(int id)
+        {
+            var removeFarm = _farmRepository.Get(id);
+            _farmRepository.Remove(removeFarm);
+            _farmRepository.Commit();
+        }
     }
 }

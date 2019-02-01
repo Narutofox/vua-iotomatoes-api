@@ -43,6 +43,16 @@ namespace IoTomatoes.Api
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
 
+            services.AddTransient<ICountryRepository, CountryRepository>();
+            services.AddTransient<ICountryService, CountryService>();
+
+            services.AddTransient<ICityRepository, CityRepository>();
+            services.AddTransient<ICityService, CityService>();
+
+            services.AddTransient<ISensorRepository, SensorRepository>();
+            services.AddTransient<ISensorService, SensorService>();
+
+
             services
                 .AddMvc()
                 .AddJsonOptions(options =>

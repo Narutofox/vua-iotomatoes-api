@@ -8,5 +8,9 @@ namespace IoTomatoes.Application.Interfaces
     {
         FarmDTO Get(int id);
         List<FarmDTO> GetAll();
+        void Remove(int id);
+        void Update(FarmDTO farm);
+        void Create(FarmDTO farm);
+
     }
 }
