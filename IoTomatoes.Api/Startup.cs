@@ -13,6 +13,8 @@ using IoTomatoes.Application.Services;
 using AutoMapper;
 using IoTomatoes.Domain.Interfaces;
 using IoTomatoes.Persistence.Repositories;
+using IoTomatoes.Api.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace IoTomatoes.Api
 {
@@ -74,6 +76,7 @@ namespace IoTomatoes.Api
             });
 
             services.AddAutoMapper();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +94,17 @@ namespace IoTomatoes.Api
             app.UseCors("VueCors");
             //app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseSignalR(route =>
+            {
+                route.MapHub<NotificationHub>("/notifhub");
+            });
+            app.Use(async (context, next) =>
+            {
+                var hubContext = context.RequestServices
+                                        .GetRequiredService<IHubContext<NotificationHub>>();
+            });
+
         }
     }
 }

@@ -13,7 +13,7 @@ namespace IoTomatoes.Application.Mappings
             CreateMap<RuleSet, RuleSetDTO>().ReverseMap();
             CreateMap<Farm, FarmDTO>().ReverseMap();
             CreateMap<User, UserDTO>().ReverseMap();
-            CreateMap<City, CityDTO>().ReverseMap();
+            CreateMap<CityDTO, City>().ReverseMap();
             CreateMap<Country, CountryDTO>().ReverseMap();
             CreateMap<Sensor, SensorDTO>().ReverseMap();
         }

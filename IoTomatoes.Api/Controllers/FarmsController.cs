@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IoTomatoes.Api.Hubs;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,42 +15,30 @@ namespace IoTomatoes.Api.Controllers
     [Route("api/[controller]")]
     public class FarmsController : Controller
     {
+        private readonly IHubContext<NotificationHub> _hubContext;
+
         private readonly IFarmService _farmService;
         private readonly IRuleSetService _ruleSetService;
         private readonly IRuleService _ruleService;
 
-        private readonly ISensorService sensor;
-        private readonly ICityService city;
-        private readonly ICountryService country;
+        // call this on rpi post with measurements _hubContext.Clients.All.SendAsync("SendMeasurements", FarmMeasurements);
 
         public FarmsController(
-            IFarmService farmService, ISensorService sensor, ICityService city, ICountryService country,
-            IRuleSetService ruleSetService, 
+            IHubContext<NotificationHub> hubContext,
+            IFarmService farmService,
+            IRuleSetService ruleSetService,
             IRuleService ruleService)
         {
             _farmService = farmService;
             _ruleSetService = ruleSetService;
             _ruleService = ruleService;
-
-            this.sensor = sensor;
-            this.country = country;
-            this.city = city;
+            _hubContext = hubContext;
         }
 
         // GET api/farms
         [HttpGet]
         public IEnumerable<FarmDTO> Get()
         {
-            CityDTO c = new CityDTO
-            {
-                Name = "Test city",
-                Code = "TC",
-                CountryId = 1
-            };
-
-            city.Create(c);
-            var ci = city.GetAll();
-
             return _farmService.GetAll();
         }
 
