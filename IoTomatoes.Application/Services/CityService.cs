@@ -12,15 +12,16 @@ namespace IoTomatoes.Application.Services
     {
         private readonly ICityRepository _cityRepository;
         private readonly IMapper _mapper;
+
         public CityService(ICityRepository cityRepository, IMapper mapper)
         {
             _cityRepository = cityRepository;
             _mapper = mapper;
         }
 
-        public void Create(CityDTO city)
+        public void Create(CityDTO cityDto)
         {
-            var createCity = _mapper.Map<City>(city);
+            var createCity = _mapper.Map<City>(cityDto);
 
             _cityRepository.Add(createCity);
             _cityRepository.Commit();
