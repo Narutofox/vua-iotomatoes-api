@@ -17,38 +17,20 @@ namespace IoTomatoes.Api.Controllers
         private readonly IRuleSetService _ruleSetService;
         private readonly IRuleService _ruleService;
 
-        private readonly ISensorService sensor;
-        private readonly ICityService city;
-        private readonly ICountryService country;
-
         public FarmsController(
-            IFarmService farmService, ISensorService sensor, ICityService city, ICountryService country,
+            IFarmService farmService,
             IRuleSetService ruleSetService, 
             IRuleService ruleService)
         {
             _farmService = farmService;
             _ruleSetService = ruleSetService;
             _ruleService = ruleService;
-
-            this.sensor = sensor;
-            this.country = country;
-            this.city = city;
         }
 
         // GET api/farms
         [HttpGet]
         public IEnumerable<FarmDTO> Get()
         {
-            CityDTO c = new CityDTO
-            {
-                Name = "Test city",
-                Code = "TC",
-                CountryId = 1
-            };
-
-            city.Create(c);
-            var ci = city.GetAll();
-
             return _farmService.GetAll();
         }
 
