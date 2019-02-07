@@ -94,17 +94,6 @@ namespace IoTomatoes.Api
             app.UseCors("VueCors");
             //app.UseHttpsRedirection();
             app.UseMvc();
-
-            app.UseSignalR(route =>
-            {
-                route.MapHub<NotificationHub>("/notifhub");
-            });
-            app.Use(async (context, next) =>
-            {
-                var hubContext = context.RequestServices
-                                        .GetRequiredService<IHubContext<NotificationHub>>();
-            });
-
         }
     }
 }

@@ -6,25 +6,17 @@ using IoTomatoes.Api.Hubs;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace IoTomatoes.Api.Controllers
 {
     [Route("api/[controller]")]
     public class FarmsController : Controller
     {
-        private readonly IHubContext<NotificationHub> _hubContext;
-
         private readonly IFarmService _farmService;
         private readonly IRuleSetService _ruleSetService;
         private readonly IRuleService _ruleService;
 
-        // call this on rpi post with measurements _hubContext.Clients.All.SendAsync("SendMeasurements", FarmMeasurements);
-
         public FarmsController(
-            IHubContext<NotificationHub> hubContext,
             IFarmService farmService,
             IRuleSetService ruleSetService,
             IRuleService ruleService)
@@ -32,7 +24,6 @@ namespace IoTomatoes.Api.Controllers
             _farmService = farmService;
             _ruleSetService = ruleSetService;
             _ruleService = ruleService;
-            _hubContext = hubContext;
         }
 
         // GET api/farms
