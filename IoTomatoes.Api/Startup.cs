@@ -13,8 +13,6 @@ using IoTomatoes.Application.Services;
 using AutoMapper;
 using IoTomatoes.Domain.Interfaces;
 using IoTomatoes.Persistence.Repositories;
-using IoTomatoes.Api.Hubs;
-using Microsoft.AspNetCore.SignalR;
 
 namespace IoTomatoes.Api
 {
