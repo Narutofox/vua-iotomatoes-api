@@ -17,9 +17,9 @@ namespace IoTomatoes.Persistence.Configurations
 
             builder.Property(e => e.Description).HasMaxLength(3000);
 
-            builder.Property(e => e.Latitude).HasColumnType("decimal(18, 0)");
+            builder.Property(e => e.Latitude).HasColumnType("decimal(18, 7)");
 
-            builder.Property(e => e.Longitude).HasColumnType("decimal(18, 0)");
+            builder.Property(e => e.Longitude).HasColumnType("decimal(18, 7)");
 
             builder.Property(e => e.Name).HasMaxLength(255);
 

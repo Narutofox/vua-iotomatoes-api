@@ -14,12 +14,10 @@ namespace IoTomatoes.Domain.Models
         public string Name { get; set; }
         public string Code { get; set; }
         public string Description { get; set; }
-        public int? PlantTypeId { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public int? Version { get; set; }
 
-        public virtual PlantType PlantType { get; set; }
         public virtual ICollection<FarmPlant> FarmPlants { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace IoTomatoes.Domain.Models
         public string Name { get; set; }
         public string Code { get; set; }
         public string PostalCode { get; set; }
-        public int? CountryId { get; set; }
+        public int CountryId { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public int? Version { get; set; }

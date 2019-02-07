@@ -6,8 +6,8 @@ namespace IoTomatoes.Domain.Models
     public class FarmActuator
     {
         public int Id { get; set; }
-        public int? FarmId { get; set; }
-        public int? ActuatorId { get; set; }
+        public int FarmId { get; set; }
+        public int ActuatorId { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
 

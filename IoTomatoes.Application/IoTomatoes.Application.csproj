@@ -12,9 +12,6 @@
     <Folder Include="Infrastructure\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IoTomatoes.Core\IoTomatoes.Domain.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="Services\FarmSensorService.cs" />
     <Compile Remove="Models\FarmSensorDTO.cs" />
     <Compile Remove="Interfaces\IFarmSensorService.cs" />
@@ -22,5 +19,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\RuleSetDTO.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IoTomatoes.Core\IoTomatoes.Domain.csproj" />
   </ItemGroup>
 </Project>

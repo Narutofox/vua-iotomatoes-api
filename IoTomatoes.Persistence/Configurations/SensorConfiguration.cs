@@ -13,14 +13,11 @@ namespace IoTomatoes.Persistence.Configurations
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Sensor> builder)
         {
             builder.Property(e => e.Code)
-                    .HasMaxLength(3)
-                    .IsUnicode(false);
+                    .HasMaxLength(20);
 
             builder.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
 
             builder.Property(e => e.DateModified).HasDefaultValueSql("(getdate())");
-
-            builder.Property(e => e.Name).HasMaxLength(255);
 
             builder.Property(e => e.Version).HasDefaultValueSql("((1))");
 

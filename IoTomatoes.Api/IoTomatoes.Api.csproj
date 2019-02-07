@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IoTomatoes.Persistence\IoTomatoes.Persistence.csproj" />
-    <ProjectReference Include="..\IoTomatoes.Application\IoTomatoes.Application.csproj" />
+    <Compile Remove="Controllers\FarmSensorsController.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\FarmSensorsController.cs" />
+    <ProjectReference Include="..\IoTomatoes.Application\IoTomatoes.Application.csproj" />
+    <ProjectReference Include="..\IoTomatoes.Persistence\IoTomatoes.Persistence.csproj" />
   </ItemGroup>
 </Project>

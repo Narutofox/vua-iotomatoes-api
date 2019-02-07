@@ -13,9 +13,7 @@ namespace IoTomatoes.Persistence.Configurations
 
             builder.Property(e => e.DateModified).HasDefaultValueSql("(getdate())");
 
-            builder.Property(e => e.Description).HasMaxLength(1000);
-
-            builder.Property(e => e.Name).HasMaxLength(255);
+            builder.Property(e => e.Code).HasMaxLength(20);
 
             builder.HasOne(d => d.ActuatorType)
                 .WithMany(p => p.Actuators)

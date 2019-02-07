@@ -11,7 +11,7 @@ namespace IoTomatoes.Persistence.Configurations
         {
             builder.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
 
-            builder.Property(e => e.Value).HasColumnType("decimal(18, 0)");
+            builder.Property(e => e.Value).HasColumnType("decimal(18, 2)");
 
             builder.HasOne(d => d.FarmSensor)
                 .WithMany(p => p.FarmSensorMeasurements)

@@ -10,8 +10,7 @@ namespace IoTomatoes.Persistence.Configurations
         public void Configure(EntityTypeBuilder<MeasuringUnit> builder)
         {
             builder.Property(e => e.Code)
-                    .HasMaxLength(3)
-                    .IsUnicode(false);
+                    .HasMaxLength(10);
 
             builder.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
 

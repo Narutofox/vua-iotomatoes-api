@@ -10,8 +10,7 @@ namespace IoTomatoes.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Plant> builder)
         {
             builder.Property(e => e.Code)
-                    .HasMaxLength(3)
-                    .IsUnicode(false);
+                    .HasMaxLength(10);
 
             builder.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
 
@@ -22,11 +21,6 @@ namespace IoTomatoes.Persistence.Configurations
             builder.Property(e => e.Name).HasMaxLength(255);
 
             builder.Property(e => e.Version).HasDefaultValueSql("((1))");
-
-            builder.HasOne(d => d.PlantType)
-                .WithMany(p => p.Plants)
-                .HasForeignKey(d => d.PlantTypeId)
-                .HasConstraintName("FK__Plants__PlantTyp__48CFD27E");
         }
     }
 }

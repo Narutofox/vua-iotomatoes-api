@@ -9,6 +9,10 @@ namespace IoTomatoes.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<FarmSensor> builder)
         {
+            builder.Property(e => e.Name).HasMaxLength(255);
+
+            builder.Property(e => e.Code).HasMaxLength(10);
+
             builder.Property(e => e.DateCreated).HasDefaultValueSql("(getdate())");
 
             builder.Property(e => e.DateModified).HasDefaultValueSql("(getdate())");
