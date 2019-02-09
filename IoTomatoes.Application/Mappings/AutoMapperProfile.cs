@@ -20,6 +20,7 @@ namespace IoTomatoes.Application.Mappings
                 .ForMember(src => src.CountryId, opt => opt.MapFrom(x => x.CountryId));
 
             CreateMap<Sensor, SensorDTO>().ReverseMap();
+            CreateMap<FarmSensorMeasurement, SensorMeasurmentDTO>().ReverseMap();
         }
     }
 }

@@ -12,12 +12,9 @@
 
   <ItemGroup>
     <Compile Remove="Models\Actuators.cs" />
-    <Compile Remove="Repositories\FarmSensorMeasurementRepository.cs" />
-    <Compile Remove="Repositories\FarmSensorRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="Repositories\" />
     <Folder Include="Commons\" />
   </ItemGroup>
   <ItemGroup>
