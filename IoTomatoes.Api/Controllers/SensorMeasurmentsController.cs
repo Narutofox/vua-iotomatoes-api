@@ -28,17 +28,13 @@ namespace IoTomatoes.Api.Controllers
         }
 
         [HttpPost]
-        public void Post(Dictionary<int, decimal> farmSensorsMeasurements) {
-
-            foreach (var key in farmSensorsMeasurements.Keys)
+        public void Post([FromBody] Dictionary<int, decimal> farmSensorsMeasurements) {
+            if (farmSensorsMeasurements == null)
             {
-                _sensorMeasurmentService.Create(new SensorMeasurmentDTO
-                {
-                    Id = key,
-                    Value = farmSensorsMeasurements[key],
-                    DateCreated = DateTime.Now
-                });
+                throw new ArgumentNullException(nameof(farmSensorsMeasurements));
             }
+
+            _sensorMeasurmentService.CreateFromDictionary(farmSensorsMeasurements);
         }
 
     }

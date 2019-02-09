@@ -8,6 +8,6 @@ namespace IoTomatoes.Application.Interfaces
     public interface ISensorMeasurmentService
     {
         IEnumerable<SensorMeasurmentDTO> GetBySensorId(int sensorId);
-        void Create(SensorMeasurmentDTO sensorMeasurement);
+        void CreateFromDictionary(Dictionary<int, decimal> sensorMeasurementsDictionary);
     }
 }

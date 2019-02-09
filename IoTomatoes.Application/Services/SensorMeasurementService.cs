@@ -31,13 +31,23 @@ namespace IoTomatoes.Application.Services
             return null;
         }
 
-        public void Create(SensorMeasurmentDTO sensorMeasurement)
-        {
-            var createSensorMeasurement = _mapper.Map<FarmSensorMeasurement>(sensorMeasurement);
 
-            _farmSensorMeasurementRepository.Add(createSensorMeasurement);
+
+        public void CreateFromDictionary(Dictionary<int, decimal> sensorMeasurementsDictionary)
+        {
+            foreach (var key in sensorMeasurementsDictionary.Keys)
+            {
+                var sensorMeasurement =new SensorMeasurmentDTO
+                {
+                    FarmSensorId = key,
+                    Value = sensorMeasurementsDictionary[key],
+                    DateCreated = DateTime.Now
+                };
+                var createSensorMeasurement = _mapper.Map<FarmSensorMeasurement>(sensorMeasurement);
+                _farmSensorMeasurementRepository.Add(createSensorMeasurement);
+                
+            }
             _farmSensorMeasurementRepository.Commit();
         }
-
     }
 }
