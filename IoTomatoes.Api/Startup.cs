@@ -13,6 +13,7 @@ using IoTomatoes.Application.Services;
 using AutoMapper;
 using IoTomatoes.Domain.Interfaces;
 using IoTomatoes.Persistence.Repositories;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace IoTomatoes.Api
 {
@@ -78,7 +79,11 @@ namespace IoTomatoes.Api
             });
 
             services.AddAutoMapper();
-            services.AddSignalR();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "IoTomatoes API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,6 +100,17 @@ namespace IoTomatoes.Api
 
             app.UseCors("VueCors");
             //app.UseHttpsRedirection();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "IoTomatoes API V1");
+            });
+
             app.UseMvc();
         }
     }

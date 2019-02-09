@@ -49,7 +49,7 @@ namespace IoTomatoes.Api.Controllers
 
         // POST api/users
         [HttpPost]
-        public void Post(UserDTO user)
+        public void Post([FromBody] UserDTO user)
         {
             _userService.Create(user);
         }
