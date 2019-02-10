@@ -11,20 +11,20 @@ namespace IoTomatoes.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SensorMeasurmentsController : ControllerBase
+    public class SensorMeasurementsController : ControllerBase
     {
-        private readonly ISensorMeasurmentService _sensorMeasurmentService;
+        private readonly ISensorMeasurmentService _sensorMeasurementService;
 
-        public SensorMeasurmentsController(ISensorMeasurmentService sensorMeasurmentService)
+        public SensorMeasurementsController(ISensorMeasurmentService sensorMeasurementService)
         {
-            _sensorMeasurmentService = sensorMeasurmentService;
+            _sensorMeasurementService = sensorMeasurementService;
         }
 
 
         [HttpGet("{sensorId}")]
         public IEnumerable<SensorMeasurmentDTO> GetBySensorId(int sensorId) {
 
-            return _sensorMeasurmentService.GetBySensorId(sensorId);
+            return _sensorMeasurementService.GetBySensorId(sensorId);
         }
 
         [HttpPost]
@@ -34,7 +34,7 @@ namespace IoTomatoes.Api.Controllers
                 throw new ArgumentNullException(nameof(farmSensorsMeasurements));
             }
 
-            _sensorMeasurmentService.CreateFromDictionary(farmSensorsMeasurements);
+            _sensorMeasurementService.CreateFromDictionary(farmSensorsMeasurements);
         }
 
     }
