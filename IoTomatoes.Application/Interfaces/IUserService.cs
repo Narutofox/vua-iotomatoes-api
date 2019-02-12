@@ -11,5 +11,6 @@ namespace IoTomatoes.Application.Interfaces
         List<UserDTO> GetAll();
         void Create(UserDTO user);
         void Update(UserDTO user);
+        List<FarmDTO> GetFarms(int id);
     }
 }

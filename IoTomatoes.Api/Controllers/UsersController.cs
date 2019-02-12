@@ -34,6 +34,12 @@ namespace IoTomatoes.Api.Controllers
             return _userService.Get(id);
         }
 
+        [HttpGet("{id}/farms")]
+        public List<FarmDTO> GetUserFarms(int id)
+        {
+            return _userService.GetFarms(id);
+        }
+
         [HttpPost("login")]
         public ActionResult<UserDTO> Login([FromBody] UserDTO user)
         {
@@ -49,16 +55,18 @@ namespace IoTomatoes.Api.Controllers
 
         // POST api/users
         [HttpPost]
-        public void Post([FromBody] UserDTO user)
+        public IActionResult Post([FromBody] UserDTO user)
         {
             _userService.Create(user);
+            return Ok();
         }
 
         // PUT api/users
         [HttpPut("{id}")]
-        public void Put(UserDTO user)
+        public IActionResult Put([FromBody] UserDTO user)
         {
             _userService.Update(user);
+            return Ok();
         }
 
         // DELETE api/users/5

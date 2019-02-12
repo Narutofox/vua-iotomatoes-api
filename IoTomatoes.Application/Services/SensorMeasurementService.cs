@@ -13,12 +13,12 @@ namespace IoTomatoes.Application.Services
     {
         private readonly IFarmSensorMeasurementRepository _farmSensorMeasurementRepository;
         private readonly IMapper _mapper;
+
         public SensorMeasurementService(IFarmSensorMeasurementRepository farmSensorMeasurementRepository, IMapper mapper)
         {
-            _mapper = mapper;
             _farmSensorMeasurementRepository = farmSensorMeasurementRepository;
+            _mapper = mapper;
         }
-
 
         public IEnumerable<SensorMeasurmentDTO> GetBySensorId(int sensorId) {
             var sensorMeasurement = _farmSensorMeasurementRepository.GetBySensorId(sensorId);
@@ -31,22 +31,21 @@ namespace IoTomatoes.Application.Services
             return null;
         }
 
-
-
         public void CreateFromDictionary(Dictionary<int, decimal> sensorMeasurementsDictionary)
         {
             foreach (var key in sensorMeasurementsDictionary.Keys)
             {
-                var sensorMeasurement =new SensorMeasurmentDTO
+                var sensorMeasurement = new SensorMeasurmentDTO
                 {
                     FarmSensorId = key,
                     Value = sensorMeasurementsDictionary[key],
                     DateCreated = DateTime.Now
                 };
+
                 var createSensorMeasurement = _mapper.Map<FarmSensorMeasurement>(sensorMeasurement);
                 _farmSensorMeasurementRepository.Add(createSensorMeasurement);
-                
             }
+
             _farmSensorMeasurementRepository.Commit();
         }
     }

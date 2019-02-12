@@ -28,13 +28,9 @@ namespace IoTomatoes.Api.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Dictionary<int, decimal> farmSensorsMeasurements) {
-            if (farmSensorsMeasurements == null)
-            {
-                throw new ArgumentNullException(nameof(farmSensorsMeasurements));
-            }
-
+        public IActionResult Post([FromBody] Dictionary<int, decimal> farmSensorsMeasurements) {
             _sensorMeasurementService.CreateFromDictionary(farmSensorsMeasurements);
+            return Ok();
         }
 
     }
