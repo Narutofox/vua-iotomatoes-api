@@ -5,6 +5,7 @@ using AutoMapper;
 using IoTomatoes.Application.Infrastructure;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
+using IoTomatoes.Application.Models.User;
 using IoTomatoes.Domain.Interfaces;
 using IoTomatoes.Domain.Models;
 
@@ -21,13 +22,24 @@ namespace IoTomatoes.Application.Services
             _mapper = mapper;
         }
 
-        public void Create(UserDTO user)
+        public void Create(CreateUserDTO user)
         {
             var createdUser = _mapper.Map<User>(user);
-            createdUser.Id = 0;
-            createdUser.Password = HashHelper.CreateMD5(user.Password);
+            createdUser.Active = 1;
+            createdUser.DateCreated = DateTime.Now;
+            createdUser.DateModified = DateTime.Now;
 
             _userRepository.Add(createdUser);
+            _userRepository.Commit();
+        }
+
+        public void Update(UpdateUserDTO user)
+        {
+            var dbUser = _userRepository.Get(user.Id);
+            _mapper.Map(user, dbUser);
+            dbUser.DateModified = DateTime.Now;
+
+            _userRepository.Update(dbUser);
             _userRepository.Commit();
         }
 
@@ -74,15 +86,6 @@ namespace IoTomatoes.Application.Services
             }
 
             return null;
-        }
-
-        public void Update(UserDTO user)
-        {
-            var updatedUser = _mapper.Map<User>(user);
-            updatedUser.Password = HashHelper.CreateMD5(user.Password);
-
-            _userRepository.Update(updatedUser);
-            _userRepository.Commit();
         }
     }
 }

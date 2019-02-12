@@ -1,7 +1,9 @@
 ﻿using System;
 using AutoMapper;
+using IoTomatoes.Application.Infrastructure;
 using IoTomatoes.Application.Models;
 using IoTomatoes.Application.Models.Farm;
+using IoTomatoes.Application.Models.User;
 using IoTomatoes.Domain.Models;
 
 namespace IoTomatoes.Application.Mappings
@@ -20,6 +22,16 @@ namespace IoTomatoes.Application.Mappings
                 .ForMember(src => src.DateCreated, opt => opt.Ignore());
 
             CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<CreateUserDTO, User>()
+                .ForMember(src => src.Password, opt => opt.MapFrom(x => HashHelper.CreateMD5(x.Password)));
+
+            CreateMap<UpdateUserDTO, User>()
+                .ForMember(src => src.Id, opt => opt.Ignore())
+                .ForMember(src => src.Username, opt => opt.Ignore())
+                .ForMember(src => src.FirstName, opt => opt.Ignore())
+                .ForMember(src => src.LastName, opt => opt.Ignore())
+                .ForMember(src => src.Password, opt => opt.MapFrom(x => HashHelper.CreateMD5(x.Password)))
+                .ForMember(src => src.DateCreated, opt => opt.Ignore());
 
             CreateMap<Country, CountryDTO>().ReverseMap();
             CreateMap<City, CityDTO>()
