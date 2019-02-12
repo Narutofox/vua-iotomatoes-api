@@ -20,10 +20,11 @@ namespace IoTomatoes.Api.Controllers
             _sensorMeasurementService = sensorMeasurementService;
         }
 
-        //[HttpGet]
-        //public List<SensorMeasurmentDTO> GetBySensorId(int sensorId) {
-        //    return _sensorMeasurementService.GetBySensorId(sensorId);
-        //}
+        [HttpGet("{sensorId}")]
+        public List<SensorMeasurmentDTO> GetBySensorId(int sensorId)
+        {
+            return _sensorMeasurementService.GetBySensorId(sensorId);
+        }
 
         [HttpGet]
         public Dictionary<int, List<SensorMeasurmentDTO>> GetFarmMeasurements(int farmId, DateTime? dateFrom, DateTime? dateTo)

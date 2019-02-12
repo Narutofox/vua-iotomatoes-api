@@ -62,7 +62,7 @@ namespace IoTomatoes.Api.Controllers
         }
 
         // PUT api/users
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult Put([FromBody] UserDTO user)
         {
             _userService.Update(user);

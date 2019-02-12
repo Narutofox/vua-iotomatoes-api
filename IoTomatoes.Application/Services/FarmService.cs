@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
+using IoTomatoes.Application.Models.Farm;
 using IoTomatoes.Domain.Interfaces;
 using IoTomatoes.Domain.Models;
 
@@ -38,18 +39,22 @@ namespace IoTomatoes.Application.Services
             return farms.Select(farm => _mapper.Map<FarmDTO>(farm)).ToList();
         }
 
-        public void Create(FarmDTO farm)
+        public void Create(CreateFarmDTO farm)
         {
             var createFarm = _mapper.Map<Farm>(farm);
+            createFarm.DateCreated = DateTime.Now;
+            createFarm.DateModified = DateTime.Now;
 
             _farmRepository.Add(createFarm);
             _farmRepository.Commit();
         }
-        public void Update(FarmDTO farm)
+        public void Update(UpdateFarmDTO farm)
         {
-            var updateFarm = _mapper.Map<Farm>(farm);
+            var dbFarm = _farmRepository.Get(farm.Id);
+            _mapper.Map(farm, dbFarm);
+            dbFarm.DateModified = DateTime.Now;
 
-            _farmRepository.Update(updateFarm);
+            _farmRepository.Update(dbFarm);
             _farmRepository.Commit();
         }
 
