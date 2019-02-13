@@ -33,14 +33,22 @@ namespace IoTomatoes.Application.Services
             _userRepository.Commit();
         }
 
-        public void Update(UpdateUserDTO user)
+        public UserDTO Update(UpdateUserDTO user)
         {
             var dbUser = _userRepository.Get(user.Id);
-            _mapper.Map(user, dbUser);
+
+            if (!dbUser.Password.Equals(user.Password))
+            {
+                dbUser.Password = HashHelper.CreateMD5(user.Password);
+            }
+
+            dbUser.Email = user.Email;
             dbUser.DateModified = DateTime.Now;
 
             _userRepository.Update(dbUser);
             _userRepository.Commit();
+
+            return _mapper.Map<UserDTO>(dbUser);
         }
 
         public UserDTO Get(int id)

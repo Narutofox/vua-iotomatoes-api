@@ -25,14 +25,6 @@ namespace IoTomatoes.Application.Mappings
             CreateMap<CreateUserDTO, User>()
                 .ForMember(src => src.Password, opt => opt.MapFrom(x => HashHelper.CreateMD5(x.Password)));
 
-            CreateMap<UpdateUserDTO, User>()
-                .ForMember(src => src.Id, opt => opt.Ignore())
-                .ForMember(src => src.Username, opt => opt.Ignore())
-                .ForMember(src => src.FirstName, opt => opt.Ignore())
-                .ForMember(src => src.LastName, opt => opt.Ignore())
-                .ForMember(src => src.Password, opt => opt.MapFrom(x => HashHelper.CreateMD5(x.Password)))
-                .ForMember(src => src.DateCreated, opt => opt.Ignore());
-
             CreateMap<Country, CountryDTO>().ReverseMap();
             CreateMap<City, CityDTO>()
                 .ReverseMap()

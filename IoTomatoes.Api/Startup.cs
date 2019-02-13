@@ -70,7 +70,7 @@ namespace IoTomatoes.Api
                 {
                     policy
                         .AllowAnyHeader()
-                        .WithMethods(new string[] { "GET", "POST", "PUT", "DELETE" })
+                        .AllowAnyMethod()
                         .AllowCredentials()
                         .AllowAnyOrigin();
                 });

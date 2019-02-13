@@ -64,10 +64,16 @@ namespace IoTomatoes.Api.Controllers
 
         // PUT api/users
         [HttpPut]
-        public IActionResult Put([FromBody] UpdateUserDTO user)
+        public ActionResult<UserDTO> Put([FromBody] UpdateUserDTO user)
         {
-            _userService.Update(user);
-            return Ok();
+            var updatedUser = _userService.Update(user);
+
+            if(updatedUser != null)
+            {
+                return Ok(updatedUser);
+            }
+
+            return NoContent();
         }
 
         // DELETE api/users/5
