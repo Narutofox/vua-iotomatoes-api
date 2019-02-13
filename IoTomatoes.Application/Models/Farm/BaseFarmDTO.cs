@@ -16,5 +16,6 @@ namespace IoTomatoes.Application.Models.Farm
         public decimal Longitude { get; set; }
         public List<int> SensorIds { get; set; }
         public List<int> PlantIds { get; set; }
+        public List<int> ActuatorIds { get; set; }
     }
 }

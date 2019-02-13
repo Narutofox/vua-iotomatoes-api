@@ -59,6 +59,9 @@ namespace IoTomatoes.Api
             services.AddTransient<IPlantRepository, PlantRepository>();
             services.AddTransient<IPlantService, PlantService>();
 
+            services.AddTransient<IActuatorRepository, ActuatorRepository>();
+            services.AddTransient<IActuatorService, ActuatorService>();
+
             services
                 .AddMvc()
                 .AddJsonOptions(options =>
