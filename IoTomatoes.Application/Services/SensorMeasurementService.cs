@@ -63,8 +63,15 @@ namespace IoTomatoes.Application.Services
 
                 foreach (var farmSensor in farmSensors)
                 {
-                    var sensorMeasurements = GetBySensorId(farmSensor.Id)
-                        .Where(x => x.DateCreated >= dateFrom && x.DateCreated <= dateTo)
+                    var sensorQuery = GetBySensorId(farmSensor.Id)
+                        .AsQueryable();
+
+                    if (dateFrom.HasValue && dateTo.HasValue)
+                    {
+                        sensorQuery = sensorQuery.Where(x => x.DateCreated >= dateFrom.Value && x.DateCreated <= dateTo.Value);
+                    }
+
+                    var sensorMeasurements = sensorQuery
                         .OrderBy(x => x.DateCreated)
                         .ToList();
 
