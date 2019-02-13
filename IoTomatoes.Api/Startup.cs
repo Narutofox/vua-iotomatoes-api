@@ -19,6 +19,8 @@ namespace IoTomatoes.Api
 {
     public class Startup
     {
+        private const string SWAGGER_URL = "/swagger/v1/swagger.json";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -62,16 +64,6 @@ namespace IoTomatoes.Api
             services.AddTransient<IActuatorRepository, ActuatorRepository>();
             services.AddTransient<IActuatorService, ActuatorService>();
 
-            services
-                .AddMvc()
-                .AddJsonOptions(options =>
-                {
-                    var serializer = options.SerializerSettings;
-                    serializer.Formatting = Formatting.Indented;
-                    serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
             services.AddCors(options =>
             {
                 options.AddPolicy("VueCors", policy =>
@@ -79,6 +71,7 @@ namespace IoTomatoes.Api
                     policy.AllowAnyHeader();
                     policy.AllowAnyMethod();
                     policy.AllowAnyOrigin();
+                    policy.AllowCredentials();
                 });
             });
 
@@ -88,6 +81,16 @@ namespace IoTomatoes.Api
             {
                 c.SwaggerDoc("v1", new Info { Title = "IoTomatoes API", Version = "v1" });
             });
+
+            services
+                .AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    var serializer = options.SerializerSettings;
+                    serializer.Formatting = Formatting.Indented;
+                    serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,7 +115,7 @@ namespace IoTomatoes.Api
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "IoTomatoes API V1");
+                c.SwaggerEndpoint(SWAGGER_URL, "IoTomatoes API V1");
             });
 
             app.UseMvc();
