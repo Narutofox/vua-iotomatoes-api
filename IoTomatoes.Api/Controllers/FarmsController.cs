@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
+using IoTomatoes.Application.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IoTomatoes.Api.Controllers
@@ -27,7 +28,7 @@ namespace IoTomatoes.Api.Controllers
 
         // GET api/farms
         [HttpGet]
-        public IEnumerable<FarmDTO> Get()
+        public List<FarmDTO> Get()
         {
             return _farmService.GetAll();
         }
@@ -55,20 +56,26 @@ namespace IoTomatoes.Api.Controllers
 
         // POST api/farms
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody] CreateFarmDTO farm)
         {
+            _farmService.Create(farm);
+            return Ok();
         }
 
-        // PUT api/farms/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // PUT api/farms
+        [HttpPut]
+        public IActionResult Put([FromBody] UpdateFarmDTO farm)
         {
+            _farmService.Update(farm);
+            return Ok();
         }
 
         // DELETE api/farms/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _farmService.Remove(id);
+            return Ok();
         }
     }
 }

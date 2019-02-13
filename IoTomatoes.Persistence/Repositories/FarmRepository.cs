@@ -17,8 +17,10 @@ namespace IoTomatoes.Persistence.Repositories
         {
             return Context.Farms
                 .Include(x => x.City)
+                .Include(x => x.FarmSensors)
+                    .ThenInclude(x => x.Sensor)
                 .Include(x => x.RuleSet)
-                .ThenInclude(x => x.Rules)
+                    .ThenInclude(x => x.Rules)
                 .FirstOrDefault(x => x.Id.Equals(id));
         }
 

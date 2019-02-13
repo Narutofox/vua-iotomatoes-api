@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IoTomatoes.Application.Models;
+using IoTomatoes.Application.Models.User;
 
 namespace IoTomatoes.Application.Interfaces
 {
@@ -9,7 +10,9 @@ namespace IoTomatoes.Application.Interfaces
         UserDTO Login(string username, string password);
         UserDTO Get(int id);
         List<UserDTO> GetAll();
-        void Create(UserDTO user);
-        void Update(UserDTO user);
+        void Create(CreateUserDTO user);
+        void Update(UpdateUserDTO user);
+        void Remove(int id);
+        List<FarmDTO> GetFarms(int id);
     }
 }

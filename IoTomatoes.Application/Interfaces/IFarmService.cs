@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IoTomatoes.Application.Models;
+using IoTomatoes.Application.Models.Farm;
 
 namespace IoTomatoes.Application.Interfaces
 {
@@ -9,8 +10,7 @@ namespace IoTomatoes.Application.Interfaces
         FarmDTO Get(int id);
         List<FarmDTO> GetAll();
         void Remove(int id);
-        void Update(FarmDTO farm);
-        void Create(FarmDTO farm);
-
+        void Update(UpdateFarmDTO farm);
+        void Create(CreateFarmDTO farm);
     }
 }

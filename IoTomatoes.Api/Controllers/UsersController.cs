@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
+using IoTomatoes.Application.Models.User;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -34,8 +35,14 @@ namespace IoTomatoes.Api.Controllers
             return _userService.Get(id);
         }
 
+        [HttpGet("{id}/farms")]
+        public List<FarmDTO> GetUserFarms(int id)
+        {
+            return _userService.GetFarms(id);
+        }
+
         [HttpPost("login")]
-        public ActionResult<UserDTO> Login([FromBody] UserDTO user)
+        public ActionResult<UserDTO> Login([FromBody] LoginUserDTO user)
         {
             var loggedIn = _userService.Login(user.Username, user.Password);
 
@@ -49,22 +56,26 @@ namespace IoTomatoes.Api.Controllers
 
         // POST api/users
         [HttpPost]
-        public void Post([FromBody] UserDTO user)
+        public IActionResult Post([FromBody] CreateUserDTO user)
         {
             _userService.Create(user);
+            return Ok();
         }
 
         // PUT api/users
-        [HttpPut("{id}")]
-        public void Put(UserDTO user)
+        [HttpPut]
+        public IActionResult Put([FromBody] UpdateUserDTO user)
         {
             _userService.Update(user);
+            return Ok();
         }
 
         // DELETE api/users/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _userService.Remove(id);
+            return Ok();
         }
     }
 }

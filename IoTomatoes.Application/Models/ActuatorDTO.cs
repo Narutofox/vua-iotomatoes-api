@@ -4,12 +4,11 @@ using System.Text;
 
 namespace IoTomatoes.Application.Models
 {
-    public class SensorDTO
+    public class ActuatorDTO
     {
         public int Id { get; set; }
         public string Code { get; set; }
-        public string SensorTypeName { get; set; }
-        public string MeasuringUnitName { get; set; }
-        public string MeasuringUnitCode { get; set; }
+        public string ActuatorTypeName { get; set; }
+        public string ActuatorTypeCode { get; set; }
     }
 }

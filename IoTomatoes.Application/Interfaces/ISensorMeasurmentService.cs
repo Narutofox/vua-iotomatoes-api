@@ -7,7 +7,8 @@ namespace IoTomatoes.Application.Interfaces
 {
     public interface ISensorMeasurmentService
     {
-        IEnumerable<SensorMeasurmentDTO> GetBySensorId(int sensorId);
+        List<SensorMeasurmentDTO> GetBySensorId(int sensorId);
         void CreateFromDictionary(Dictionary<int, decimal> sensorMeasurementsDictionary);
+        Dictionary<int, List<SensorMeasurmentDTO>> GetFarmMeasurements(int farmId, DateTime? dateFrom, DateTime? dateTo);
     }
 }
