@@ -72,8 +72,10 @@ namespace IoTomatoes.Api.Controllers
 
         // DELETE api/farms/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _farmService.Remove(id);
+            return Ok();
         }
     }
 }

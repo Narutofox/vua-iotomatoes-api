@@ -87,5 +87,12 @@ namespace IoTomatoes.Application.Services
 
             return null;
         }
+
+        public void Remove(int id)
+        {
+            var user = _userRepository.Get(id);
+            _userRepository.Remove(user);
+            _userRepository.Commit();
+        }
     }
 }

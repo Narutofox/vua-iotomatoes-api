@@ -72,8 +72,10 @@ namespace IoTomatoes.Api.Controllers
 
         // DELETE api/users/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _userService.Remove(id);
+            return Ok();
         }
     }
 }

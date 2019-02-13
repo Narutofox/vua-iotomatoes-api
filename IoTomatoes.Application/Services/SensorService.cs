@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using IoTomatoes.Application.Interfaces;
@@ -21,6 +22,8 @@ namespace IoTomatoes.Application.Services
         public void Create(SensorDTO sensor)
         {
             var createSensor = _mapper.Map<Sensor>(sensor);
+            createSensor.DateCreated = DateTime.Now;
+            createSensor.DateModified = DateTime.Now;
 
             _sensorRepository.Add(createSensor);
             _sensorRepository.Commit();
@@ -40,8 +43,9 @@ namespace IoTomatoes.Application.Services
 
         public List<SensorDTO> GetAll()
         {
-            var sensors = _sensorRepository.GetAll();
-            return sensors.Select(sensor => _mapper.Map<SensorDTO>(sensor)).ToList();
+            return _sensorRepository.GetAll()
+                .Select(sensor => _mapper.Map<SensorDTO>(sensor))
+                .ToList();
         }
 
         public void Update(SensorDTO sensor)

@@ -20,6 +20,12 @@ namespace IoTomatoes.Api.Controllers
             _sensorService = sensorService;
         }
 
+        [HttpGet]
+        public List<SensorDTO> Get()
+        {
+            return _sensorService.GetAll();
+        }
+
         [HttpGet("{id}")]
         public SensorDTO GetSensor(int id) {
             return _sensorService.Get(id);
