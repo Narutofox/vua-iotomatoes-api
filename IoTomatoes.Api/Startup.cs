@@ -68,10 +68,11 @@ namespace IoTomatoes.Api
             {
                 options.AddPolicy("VueCors", policy =>
                 {
-                    policy.AllowAnyHeader();
-                    policy.AllowAnyMethod();
-                    policy.AllowAnyOrigin();
-                    policy.AllowCredentials();
+                    policy
+                        .AllowAnyHeader()
+                        .WithMethods(new string[] { "GET", "POST", "PUT", "DELETE" })
+                        .AllowCredentials()
+                        .AllowAnyOrigin();
                 });
             });
 
@@ -90,7 +91,7 @@ namespace IoTomatoes.Api
                     serializer.Formatting = Formatting.Indented;
                     serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
