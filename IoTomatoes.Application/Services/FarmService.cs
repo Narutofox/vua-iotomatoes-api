@@ -44,8 +44,35 @@ namespace IoTomatoes.Application.Services
             var createFarm = _mapper.Map<Farm>(farm);
             createFarm.DateCreated = DateTime.Now;
             createFarm.DateModified = DateTime.Now;
-
             _farmRepository.Add(createFarm);
+
+            foreach (var actuatorId in farm.ActuatorIds)
+            {
+                createFarm.FarmActuators.Add(new FarmActuator
+                {
+                    FarmId = createFarm.Id,
+                    ActuatorId = actuatorId
+                });
+            }
+
+            foreach(var sensorId in farm.SensorIds)
+            {
+                createFarm.FarmSensors.Add(new FarmSensor
+                {
+                    FarmId = createFarm.Id,
+                    SensorId = sensorId
+                });
+            }
+
+            foreach(var plantId in farm.PlantIds)
+            {
+                createFarm.FarmPlants.Add(new FarmPlant
+                {
+                    FarmId = createFarm.Id,
+                    PlantId = plantId
+                });
+            }
+
             _farmRepository.Commit();
         }
         public void Update(UpdateFarmDTO farm)
