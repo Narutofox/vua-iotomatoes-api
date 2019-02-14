@@ -28,7 +28,9 @@ namespace IoTomatoes.Persistence.Repositories
         public override List<Farm> GetAll()
         {
             return Context.Farms
+                .Include(x => x.User)
                 .Include(x => x.City)
+                .Include(x => x.RuleSet)
                 .ToList();
         }
     }
