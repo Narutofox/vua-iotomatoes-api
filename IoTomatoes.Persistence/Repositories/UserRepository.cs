@@ -34,8 +34,6 @@ namespace IoTomatoes.Persistence.Repositories
         {
             return Context.Users
                 .Include(u => u.Role)
-                .Include(u => u.Farms)
-                    .ThenInclude(u => u.City)               
                 .FirstOrDefault(x => x.Id.Equals(id));
         }
     }

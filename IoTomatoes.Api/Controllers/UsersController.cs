@@ -7,18 +7,19 @@ using IoTomatoes.Application.Models;
 using IoTomatoes.Application.Models.User;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace IoTomatoes.Api.Controllers
 {
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IFarmService _farmService;
 
-        public UsersController(IUserService userService)
+
+        public UsersController(IUserService userService, IFarmService farmService)
         {
             _userService = userService;
+            _farmService = farmService;
         }
 
         // GET: api/users
@@ -44,7 +45,7 @@ namespace IoTomatoes.Api.Controllers
         [HttpGet("{id}/farms")]
         public List<FarmDTO> GetUserFarms(int id)
         {
-            return _userService.GetFarms(id);
+            return _farmService.GetByUserId(id);
         }
 
         [HttpPost("login")]

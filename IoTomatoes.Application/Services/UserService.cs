@@ -77,21 +77,6 @@ namespace IoTomatoes.Application.Services
                 .ToList();
         }
 
-        public List<FarmDTO> GetFarms(int id)
-        {
-            var user = _userRepository.Get(id);
-            var userFarms = new List<FarmDTO>();
-
-            if (user != null)
-            {
-                userFarms = user.Farms
-                    .Select(farm => _mapper.Map<FarmDTO>(farm))
-                    .ToList();
-            }
-
-            return userFarms;
-        }
-
         public UserDTO Login(string username, string password)
         {
             var user = _userRepository.Login(username, HashHelper.CreateMD5(password));

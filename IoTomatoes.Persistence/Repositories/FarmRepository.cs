@@ -33,5 +33,14 @@ namespace IoTomatoes.Persistence.Repositories
                 .Include(x => x.RuleSet)
                 .ToList();
         }
+
+        public List<Farm> GetByUserId(int userId)
+        {
+            return Context.Farms
+                .Include(x => x.City)
+                .Include(x => x.RuleSet)
+                .Where(x => x.UserId.Equals(userId))
+                .ToList();
+        }
     }
 }
