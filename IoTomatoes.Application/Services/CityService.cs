@@ -19,9 +19,9 @@ namespace IoTomatoes.Application.Services
             _mapper = mapper;
         }
 
-        public void Create(CityDTO cityDto)
+        public void Create(CityDTO city)
         {
-            var createCity = _mapper.Map<City>(cityDto);
+            var createCity = _mapper.Map<City>(city);
 
             _cityRepository.Add(createCity);
             _cityRepository.Commit();
@@ -41,8 +41,16 @@ namespace IoTomatoes.Application.Services
 
         public List<CityDTO> GetAll()
         {
-            var cities = _cityRepository.GetAll();
-            return cities.Select(city => _mapper.Map<CityDTO>(city)).ToList();
+            return _cityRepository.GetAll()
+                .Select(city => _mapper.Map<CityDTO>(city))
+                .ToList();
+        }
+
+        public List<ListItemDTO> GetList()
+        {
+            return _cityRepository.GetAll()
+                .Select(city => _mapper.Map<ListItemDTO>(city))
+                .ToList();
         }
 
         public void Update(CityDTO city)

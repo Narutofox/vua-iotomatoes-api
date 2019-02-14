@@ -10,6 +10,7 @@ namespace IoTomatoes.Application.Interfaces
         UserDTO Login(string username, string password);
         UserDTO Get(int id);
         List<UserDTO> GetAll();
+        List<ListItemDTO> GetList();
         void Create(CreateUserDTO user);
         UserDTO Update(UpdateUserDTO user);
         void Remove(int id);

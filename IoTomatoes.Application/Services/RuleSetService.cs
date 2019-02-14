@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
@@ -17,10 +19,24 @@ namespace IoTomatoes.Application.Services
             _mapper = mapper;
         }
 
+        public List<RuleSetDTO> GetAll()
+        {
+            return _ruleSetRepository.GetAll()
+                .Select(rs => _mapper.Map<RuleSetDTO>(rs))
+                .ToList();
+        }
+
         public RuleSetDTO GetByFarm(int farmId)
         {
             var ruleSet = _ruleSetRepository.GetByFarm(farmId);
             return _mapper.Map<RuleSetDTO>(ruleSet);
+        }
+
+        public List<ListItemDTO> GetList()
+        {
+            return _ruleSetRepository.GetAll()
+                .Select(rs => _mapper.Map<ListItemDTO>(rs))
+                .ToList();
         }
     }
 }

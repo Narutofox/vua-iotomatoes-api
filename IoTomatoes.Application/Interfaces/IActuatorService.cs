@@ -8,5 +8,6 @@ namespace IoTomatoes.Application.Interfaces
     public interface IActuatorService
     {
         List<ActuatorDTO> GetAll();
+        List<ListItemDTO> GetList();
     }
 }

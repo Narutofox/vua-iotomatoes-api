@@ -22,9 +22,15 @@ namespace IoTomatoes.Application.Services
 
         public List<PlantDTO> GetAll()
         {
-            return _plantRepository
-                .GetAll()
+            return _plantRepository.GetAll()
                 .Select(plant => _mapper.Map<PlantDTO>(plant))
+                .ToList();
+        }
+
+        public List<ListItemDTO> GetList()
+        {
+            return _plantRepository.GetAll()
+                .Select(plant => _mapper.Map<ListItemDTO>(plant))
                 .ToList();
         }
     }

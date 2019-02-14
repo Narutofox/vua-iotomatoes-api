@@ -16,6 +16,7 @@ namespace IoTomatoes.Persistence.Repositories
         public override Farm Get(int id)
         {
             return Context.Farms
+                .Include(x => x.User)
                 .Include(x => x.City)
                 .Include(x => x.FarmSensors)
                     .ThenInclude(x => x.Sensor)

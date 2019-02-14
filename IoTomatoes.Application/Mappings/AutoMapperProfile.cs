@@ -15,13 +15,17 @@ namespace IoTomatoes.Application.Mappings
             CreateMap<Rule, RuleDTO>().ReverseMap();
             CreateMap<RuleSet, RuleSetDTO>().ReverseMap();
 
-            CreateMap<Farm, FarmDTO>().ReverseMap();
+            CreateMap<Farm, FarmDTO>()
+                .ForMember(x => x.UserFullName, opt => opt.MapFrom(x => $"{x.User.FirstName} {x.User.LastName}"))
+                .ReverseMap();
+
             CreateMap<CreateFarmDTO, Farm>();
             CreateMap<UpdateFarmDTO, Farm>()
                 .ForMember(src => src.Id, opt => opt.Ignore())
                 .ForMember(src => src.DateCreated, opt => opt.Ignore());
 
             CreateMap<User, UserDTO>().ReverseMap();
+
             CreateMap<CreateUserDTO, User>()
                 .ForMember(src => src.Password, opt => opt.MapFrom(x => HashHelper.CreateMD5(x.Password)));
 
@@ -34,6 +38,30 @@ namespace IoTomatoes.Application.Mappings
             CreateMap<Plant, PlantDTO>().ReverseMap();
             CreateMap<Actuator, ActuatorDTO>().ReverseMap();
             CreateMap<FarmSensorMeasurement, SensorMeasurmentDTO>().ReverseMap();
+
+            CreateMap<Actuator, ListItemDTO>()
+                .ForMember(x => x.Text, opt => opt.MapFrom(x => $"{x.Code} ({x.ActuatorType.Name})"))
+                .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
+
+            CreateMap<Sensor, ListItemDTO>()
+                .ForMember(x => x.Text, opt => opt.MapFrom(x => $"{x.Code} ({x.SensorType.Name})"))
+                .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
+
+            CreateMap<Plant, ListItemDTO>()
+                .ForMember(x => x.Text, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
+
+            CreateMap<User, ListItemDTO>()
+                .ForMember(x => x.Text, opt => opt.MapFrom(x => $"{x.FirstName} {x.LastName}"))
+                .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
+
+            CreateMap<City, ListItemDTO>()
+                .ForMember(x => x.Text, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
+
+            CreateMap<RuleSet, ListItemDTO>()
+                .ForMember(x => x.Text, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
         }
     }
 }

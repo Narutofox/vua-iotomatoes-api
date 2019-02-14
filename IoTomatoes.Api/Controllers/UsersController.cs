@@ -28,6 +28,12 @@ namespace IoTomatoes.Api.Controllers
             return _userService.GetAll();
         }
 
+        [HttpGet("list")]
+        public List<ListItemDTO> GetList()
+        {
+            return _userService.GetList();
+        }
+
         // GET api/users/5
         [HttpGet("{id}")]
         public UserDTO Get(int id)

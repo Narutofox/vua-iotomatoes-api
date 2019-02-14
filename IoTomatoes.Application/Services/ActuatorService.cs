@@ -26,5 +26,12 @@ namespace IoTomatoes.Application.Services
                 .Select(actuator => _mapper.Map<ActuatorDTO>(actuator))
                 .ToList();
         }
+
+        public List<ListItemDTO> GetList()
+        {
+           return _actuatorRepository.GetAll()
+                .Select(actuator => _mapper.Map<ListItemDTO>(actuator))
+                .ToList();
+        }
     }
 }

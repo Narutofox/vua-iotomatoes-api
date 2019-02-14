@@ -62,5 +62,12 @@ namespace IoTomatoes.Application.Services
             _sensorRepository.Remove(removeSensor);
             _sensorRepository.Commit();
         }
+
+        public List<ListItemDTO> GetList()
+        {
+            return _sensorRepository.GetAll()
+                .Select(sensor => _mapper.Map<ListItemDTO>(sensor))
+                .ToList();
+        }
     }
 }

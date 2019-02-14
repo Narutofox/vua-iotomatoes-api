@@ -51,7 +51,7 @@ namespace IoTomatoes.Api.Controllers
                 return _ruleService.GetDictionary(ruleSet.Rules);
             }
 
-            return null;
+            return new Dictionary<string, string>();
         }
 
         // POST api/farms
