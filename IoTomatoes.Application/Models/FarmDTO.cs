@@ -9,6 +9,7 @@ namespace IoTomatoes.Application.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }
+        public int CityId { get; set; }
         public string CityName { get; set; }
         public RuleSetDTO RuleSet { get; set; }
         public string RuleSetName { get; set; }

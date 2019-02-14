@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IoTomatoes.Domain.Infrastructure;
 using IoTomatoes.Domain.Interfaces;
 using IoTomatoes.Domain.Models;
 using IoTomatoes.Persistence.Commons;
@@ -25,6 +26,7 @@ namespace IoTomatoes.Persistence.Repositories
         {
             return Context.Users
                 .Include(u => u.Role)
+                .Where(u => u.RoleId.Equals((int)RoleType.User))
                 .ToList();
         }
 
