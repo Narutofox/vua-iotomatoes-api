@@ -16,6 +16,7 @@ namespace IoTomatoes.Persistence.Repositories
         public override Farm Get(int id)
         {
             return Context.Farms
+                .Include(x => x.User)
                 .Include(x => x.City)
                 .Include(x => x.FarmSensors)
                     .ThenInclude(x => x.Sensor)
@@ -27,7 +28,18 @@ namespace IoTomatoes.Persistence.Repositories
         public override List<Farm> GetAll()
         {
             return Context.Farms
+                .Include(x => x.User)
                 .Include(x => x.City)
+                .Include(x => x.RuleSet)
+                .ToList();
+        }
+
+        public List<Farm> GetByUserId(int userId)
+        {
+            return Context.Farms
+                .Include(x => x.City)
+                .Include(x => x.RuleSet)
+                .Where(x => x.UserId.Equals(userId))
                 .ToList();
         }
     }

@@ -12,5 +12,6 @@ namespace IoTomatoes.Application.Interfaces
         void Remove(int id);
         void Update(SensorDTO sensor);
         void Create(SensorDTO sensor);
+        List<ListItemDTO> GetList();
     }
 }

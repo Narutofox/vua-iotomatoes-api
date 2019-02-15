@@ -55,7 +55,7 @@ namespace IoTomatoes.Application.Services
         {
             var user = _userRepository.Get(id);
 
-            if(user != null)
+            if (user != null)
             {
                 return _mapper.Map<UserDTO>(user);
             }
@@ -65,30 +65,23 @@ namespace IoTomatoes.Application.Services
 
         public List<UserDTO> GetAll()
         {
-            var users = _userRepository.GetAll();
-            return users.Select(user => _mapper.Map<UserDTO>(user)).ToList();
+            return _userRepository.GetAll()
+                 .Select(user => _mapper.Map<UserDTO>(user))
+                 .ToList();
         }
 
-        public List<FarmDTO> GetFarms(int id)
+        public List<ListItemDTO> GetList()
         {
-            var user = _userRepository.Get(id);
-            var userFarms = new List<FarmDTO>();
-            
-            if(user != null)
-            {
-                userFarms = user.Farms
-                    .Select(farm => _mapper.Map<FarmDTO>(farm))
-                    .ToList();
-            }
-
-            return userFarms;
+            return _userRepository.GetAll()
+                .Select(user => _mapper.Map<ListItemDTO>(user))
+                .ToList();
         }
 
         public UserDTO Login(string username, string password)
         {
             var user = _userRepository.Login(username, HashHelper.CreateMD5(password));
 
-            if(user != null)
+            if (user != null)
             {
                 return _mapper.Map<UserDTO>(user);
             }

@@ -6,29 +6,31 @@ using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 namespace IoTomatoes.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class ActuatorsController : Controller
+    public class RuleSetsController : Controller
     {
-        private readonly IActuatorService _actuatorService;
+        private readonly IRuleSetService _ruleSetService;
 
-        public ActuatorsController(IActuatorService actuatorService)
+        public RuleSetsController(IRuleSetService ruleSetService)
         {
-            _actuatorService = actuatorService;
+            _ruleSetService = ruleSetService;
         }
 
         // GET: api/<controller>
         [HttpGet]
-        public List<ActuatorDTO> Get()
+        public List<RuleSetDTO> Get()
         {
-            return _actuatorService.GetAll();
+            return _ruleSetService.GetAll();
         }
 
         [HttpGet("list")]
         public List<ListItemDTO> GetList()
         {
-            return _actuatorService.GetList();
+            return _ruleSetService.GetList();
         }
 
         //// GET api/<controller>/5

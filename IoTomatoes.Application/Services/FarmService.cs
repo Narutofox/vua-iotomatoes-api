@@ -39,6 +39,14 @@ namespace IoTomatoes.Application.Services
             return farms.Select(farm => _mapper.Map<FarmDTO>(farm)).ToList();
         }
 
+        public List<FarmDTO> GetByUserId(int userId)
+        {
+            var farms = _farmRepository.GetByUserId(userId);
+            return farms
+                    .Select(farm => _mapper.Map<FarmDTO>(farm))
+                    .ToList();
+        }
+
         public void Create(CreateFarmDTO farm)
         {
             var createFarm = _mapper.Map<Farm>(farm);

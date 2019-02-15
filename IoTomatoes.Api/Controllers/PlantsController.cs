@@ -25,6 +25,12 @@ namespace IoTomatoes.Api.Controllers
             return _plantService.GetAll();
         }
 
+        [HttpGet("list")]
+        public List<ListItemDTO> GetList()
+        {
+            return _plantService.GetList();
+        }
+
         //// GET api/<controller>/5
         //[HttpGet("{id}")]
         //public string Get(int id)

@@ -12,5 +12,6 @@ namespace IoTomatoes.Application.Interfaces
         void Remove(int id);
         void Update(UpdateFarmDTO farm);
         void Create(CreateFarmDTO farm);
+        List<FarmDTO> GetByUserId(int userId);
     }
 }
