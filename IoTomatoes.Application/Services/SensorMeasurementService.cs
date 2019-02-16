@@ -52,22 +52,39 @@ namespace IoTomatoes.Application.Services
             _farmSensorMeasurementRepository.Commit();
         }
 
-        public Dictionary<int, List<SensorMeasurmentDTO>> GetFarmMeasurements(int farmId, DateTime? dateFrom = null, DateTime? dateTo = null)
+        public Dictionary<int, ChartMeasurementDTO> GetFarmMeasurements(int farmId, DateTime? dateFrom = null, DateTime? dateTo = null)
         {
             var farm = _farmRepository.Get(farmId);
 
             if(farm != null)
             {
                 var farmSensors = farm.FarmSensors;
-                var farmMeasurements = new Dictionary<int, List<SensorMeasurmentDTO>>();
+                var farmMeasurements = new Dictionary<int, ChartMeasurementDTO>();
 
                 foreach (var farmSensor in farmSensors)
                 {
-                    var measurements = _farmSensorMeasurementRepository.GetSensorMeasurements(farmSensor.Id, dateFrom, dateTo)
-                        .Select(m => _mapper.Map<SensorMeasurmentDTO>(m))
-                        .ToList();
+                    var measurements = _farmSensorMeasurementRepository.GetSensorMeasurements(farmSensor.Id, dateFrom, dateTo);
+                    ChartMeasurementDTO chartMeasurement = new ChartMeasurementDTO();
 
-                    farmMeasurements.Add(farmSensor.Sensor.SensorTypeId, measurements);
+                    if(dateFrom.HasValue && dateTo.HasValue)
+                    {
+                        var timeSpan = dateTo.Value - dateFrom.Value;
+
+                        if(timeSpan.Days <= 4)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+                    } 
+                    else if(dateTo.HasValue && !dateFrom.HasValue)
+                    {
+
+                    }
+
+                    farmMeasurements.Add(farmSensor.Sensor.SensorTypeId, chartMeasurement);
                 }
 
                 return farmMeasurements;

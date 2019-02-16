@@ -9,6 +9,6 @@ namespace IoTomatoes.Application.Interfaces
     {
         List<SensorMeasurmentDTO> GetBySensorId(int sensorId);
         void CreateFromDictionary(Dictionary<int, decimal> sensorMeasurementsDictionary);
-        Dictionary<int, List<SensorMeasurmentDTO>> GetFarmMeasurements(int farmId, DateTime? dateFrom, DateTime? dateTo);
+        Dictionary<int, ChartMeasurementDTO> GetFarmMeasurements(int farmId, DateTime? dateFrom, DateTime? dateTo);
     }
 }

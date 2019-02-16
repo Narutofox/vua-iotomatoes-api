@@ -29,6 +29,10 @@ namespace IoTomatoes.Persistence.Repositories
             if (dateFrom.HasValue && dateTo.HasValue)
             {
                 sensorQuery = sensorQuery.Where(x => x.DateCreated >= dateFrom.Value && x.DateCreated <= dateTo.Value);
+            } 
+            else if(dateFrom.HasValue && !dateTo.HasValue)
+            {
+                sensorQuery = sensorQuery.Where(x => x.DateCreated.Equals(dateFrom.Value));
             }
 
             var farmSensorMeasurements = sensorQuery

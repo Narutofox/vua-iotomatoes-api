@@ -6,6 +6,8 @@ namespace IoTomatoes.Application.Models
 {
     public class ChartMeasurementDTO
     {
+        public int FarmSensorId { get; set; }
+        public int SensorTypeId { get; set; }
         public List<string> Labels { get; set; }
         public List<decimal> Data { get; set; }
     }
