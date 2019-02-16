@@ -28,5 +28,14 @@ namespace IoTomatoes.Persistence.Repositories
 
             return null;
         }
+
+        public override RuleSet Get(int id)
+        {
+            var ruleSet = Context.RuleSets
+                .Include(x => x.Rules)
+                .FirstOrDefault(x => x.Id.Equals(id));
+
+            return ruleSet;
+        }
     }
 }

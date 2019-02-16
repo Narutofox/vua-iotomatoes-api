@@ -27,7 +27,7 @@ namespace IoTomatoes.Api.Controllers
         }
 
         [HttpGet]
-        public Dictionary<int, List<SensorMeasurmentDTO>> GetFarmMeasurements(int farmId, DateTime? dateFrom, DateTime? dateTo)
+        public Dictionary<int, ChartMeasurementDTO> GetFarmMeasurements(int farmId, DateTime? dateFrom, DateTime? dateTo)
         {
             return _sensorMeasurementService.GetFarmMeasurements(farmId, dateFrom, dateTo);
         }
