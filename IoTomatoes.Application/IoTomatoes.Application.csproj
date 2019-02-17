@@ -10,6 +10,7 @@
   <ItemGroup>
     <Folder Include="Mappings\" />
     <Folder Include="Infrastructure\" />
+    <Folder Include="Models\RuleSet\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Services\FarmSensorService.cs" />

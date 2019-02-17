@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
@@ -22,12 +23,19 @@ namespace IoTomatoes.Application.Services
         {
             var _rules = new Dictionary<string, string>();
 
-            foreach(var rule in rules)
+            foreach(RuleDTO rule in rules)
             {
                 _rules.Add(rule.Code.Trim(), rule.Conditions);
             }
 
             return _rules;
+        }
+
+        public List<ListItemDTO> GetList()
+        {
+            return _ruleRepository.GetAll()
+                .Select(rule => _mapper.Map<ListItemDTO>(rule))
+                .ToList();
         }
     }
 }

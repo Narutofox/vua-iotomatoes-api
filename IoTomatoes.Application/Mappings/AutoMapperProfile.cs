@@ -3,6 +3,7 @@ using AutoMapper;
 using IoTomatoes.Application.Infrastructure;
 using IoTomatoes.Application.Models;
 using IoTomatoes.Application.Models.Farm;
+using IoTomatoes.Application.Models.RuleSet;
 using IoTomatoes.Application.Models.User;
 using IoTomatoes.Domain.Models;
 
@@ -14,6 +15,14 @@ namespace IoTomatoes.Application.Mappings
         {
             CreateMap<Rule, RuleDTO>().ReverseMap();
             CreateMap<RuleSet, RuleSetDTO>().ReverseMap();
+
+            CreateMap<CreateRuleSetDTO, RuleSet>()
+                .ForMember(x => x.Rules, opt => opt.MapFrom(x => x.Rules));
+
+            CreateMap<UpdateRuleSetDTO, RuleSet>()
+                .ForMember(src => src.Id, opt => opt.Ignore())
+                .ForMember(src => src.DateCreated, opt => opt.Ignore())
+                .ForMember(x => x.Rules, opt => opt.MapFrom(x => x.Rules));
 
             CreateMap<Farm, FarmDTO>()
                 .ForMember(x => x.UserFullName, opt => opt.MapFrom(x => $"{x.User.FirstName} {x.User.LastName}"))
@@ -61,6 +70,10 @@ namespace IoTomatoes.Application.Mappings
 
             CreateMap<RuleSet, ListItemDTO>()
                 .ForMember(x => x.Text, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
+
+            CreateMap<Rule, ListItemDTO>()
+                .ForMember(x => x.Text, opt => opt.MapFrom(x => $"{x.Name} ({x.Code})"))
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
         }
     }
