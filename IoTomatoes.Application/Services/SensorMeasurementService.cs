@@ -83,37 +83,40 @@ namespace IoTomatoes.Application.Services
                             isOnlyDays = true;
                         }
 
-                        var dT = (int)(Math.Round(timeSpan.TotalHours) / n);
+                        double hours = Math.Round(timeSpan.TotalHours) / n;
+                        var dT = (int)hours;
 
                         for (int i = 0; i < n; i++)
                         {
+                            string dateFormat = "dd.MM.yyyy HH:mm";
+
                             if (isOnlyDays)
                             {
-                                chartMeasurement.Labels.Add(dateFrom.Value.AddHours(dT * i).ToString("dd.MM.yy"));
+                                dateFormat = "dd.MM.yyyy";
                             }
-                            else
-                            {
-                                chartMeasurement.Labels.Add(dateFrom.Value.AddHours(dT * i).ToString("dd.MM.yy HH:mm"));
-                            }
-                            chartMeasurement.Data.Add(decimal.Round(measurements
-                            .Where(m => (m.DateCreated.Value >= dateFrom.Value.AddHours(dT * i)) && (m.DateCreated.Value < dateFrom.Value.AddHours(dT * (i + 1))))
-                            .ToList()
-                            .Select(m => m.Value)
-                            .DefaultIfEmpty()
-                            .Average(), 2, MidpointRounding.AwayFromZero));
+
+                            var dateFromWithAddedHours = dateFrom.Value.AddHours(dT * i);
+                            string label = dateFromWithAddedHours.ToString(dateFormat);
+                            chartMeasurement.Labels.Add(label);
+
+                            var decimalMeasurements = measurements
+                                .Where(m => (m.DateCreated.Value >= dateFromWithAddedHours) && (m.DateCreated.Value < dateFrom.Value.AddHours(dT * (i + 1))))
+                                .Select(m => m.Value)
+                                .DefaultIfEmpty();
+
+                            decimal measurement = decimal.Round(decimalMeasurements.Average(), 2, MidpointRounding.AwayFromZero);
+                            chartMeasurement.Data.Add(measurement);
                         }
-
-
                     }
                     else if (dateFrom.HasValue && !dateTo.HasValue)
                     {
                         int dT = 0;
+
                         if (DateTime.Today == dateFrom)
                         {
                             var timeSpan = DateTime.Now - dateFrom.Value;
-                            dT = (int)((timeSpan.TotalMinutes) / n);
-
-
+                            var minutes = timeSpan.TotalMinutes / n;
+                            dT = (int)minutes;
                         }
                         else
                         {
@@ -122,13 +125,17 @@ namespace IoTomatoes.Application.Services
 
                         for (int i = 0; i < n; i++)
                         {
+                            var dateFromWithAddedMinutes = dateFrom.Value.AddMinutes(dT * i);
+                            string label = dateFromWithAddedMinutes.ToString("HH:mm");
+                            chartMeasurement.Labels.Add(label);
 
-                            chartMeasurement.Labels.Add(dateFrom.Value.AddMinutes(dT * i).ToString("HH:mm"));
-                            chartMeasurement.Data.Add(decimal.Round(measurements
-                                .Where(m => (m.DateCreated.Value >= dateFrom.Value.AddMinutes(dT * i)) && (m.DateCreated.Value < dateFrom.Value.AddMinutes(dT * (i + 1))))
+                            var decimalMeasurements = measurements
+                                .Where(m => (m.DateCreated.Value >= dateFromWithAddedMinutes) && (m.DateCreated.Value < dateFrom.Value.AddMinutes(dT * (i + 1))))
                                 .Select(m => m.Value)
-                                .DefaultIfEmpty()
-                                .Average(),2, MidpointRounding.AwayFromZero));
+                                .DefaultIfEmpty();
+
+                            decimal measurement = decimal.Round(decimalMeasurements.Average(), 2, MidpointRounding.AwayFromZero);
+                            chartMeasurement.Data.Add(measurement);
                         }
                     }
 
