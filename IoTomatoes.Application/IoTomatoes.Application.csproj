@@ -13,8 +13,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Services\FarmSensorService.cs" />
-    <Compile Remove="Models\FarmSensorDTO.cs" />
-    <Compile Remove="Interfaces\IFarmSensorService.cs" />
     <Compile Remove="Services\IoTomatoesContext.cs" />
   </ItemGroup>
   <ItemGroup>

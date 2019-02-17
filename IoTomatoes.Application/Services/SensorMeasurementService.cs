@@ -6,7 +6,6 @@ using IoTomatoes.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace IoTomatoes.Application.Services
 {
@@ -16,14 +15,15 @@ namespace IoTomatoes.Application.Services
         private readonly IFarmRepository _farmRepository;
         private readonly IMapper _mapper;
 
-        public SensorMeasurementService(IFarmSensorMeasurementRepository farmSensorMeasurementRepository, IFarmRepository farmRepository,IMapper mapper)
+        public SensorMeasurementService(IFarmSensorMeasurementRepository farmSensorMeasurementRepository, IFarmRepository farmRepository, IMapper mapper)
         {
             _farmSensorMeasurementRepository = farmSensorMeasurementRepository;
             _farmRepository = farmRepository;
             _mapper = mapper;
         }
 
-        public List<SensorMeasurmentDTO> GetBySensorId(int sensorId) {
+        public List<SensorMeasurmentDTO> GetBySensorId(int sensorId)
+        {
             var sensorMeasurement = _farmSensorMeasurementRepository.GetBySensorId(sensorId);
 
             if (sensorMeasurement != null)
@@ -52,39 +52,87 @@ namespace IoTomatoes.Application.Services
             _farmSensorMeasurementRepository.Commit();
         }
 
-        public Dictionary<int, ChartMeasurementDTO> GetFarmMeasurements(int farmId, DateTime? dateFrom = null, DateTime? dateTo = null)
+        public List<ChartMeasurementDTO> GetFarmMeasurements(int farmId, DateTime? dateFrom = null, DateTime? dateTo = null)
         {
+            int n = 10;
+            bool isOnlyDays = false;
+
             var farm = _farmRepository.Get(farmId);
 
-            if(farm != null)
+            if (farm != null)
             {
                 var farmSensors = farm.FarmSensors;
-                var farmMeasurements = new Dictionary<int, ChartMeasurementDTO>();
+                var farmMeasurements = new List<ChartMeasurementDTO>();
 
                 foreach (var farmSensor in farmSensors)
                 {
                     var measurements = _farmSensorMeasurementRepository.GetSensorMeasurements(farmSensor.Id, dateFrom, dateTo);
-                    ChartMeasurementDTO chartMeasurement = new ChartMeasurementDTO();
+                    ChartMeasurementDTO chartMeasurement = new ChartMeasurementDTO
+                    {
+                        FarmSensorId = farmSensor.Id,
+                        SensorTypeId = farmSensor.Sensor.SensorTypeId
+                    };
 
-                    if(dateFrom.HasValue && dateTo.HasValue)
+
+                    if (dateFrom.HasValue && dateTo.HasValue)
                     {
                         var timeSpan = dateTo.Value - dateFrom.Value;
 
-                        if(timeSpan.Days <= 4)
+                        if (timeSpan.Days % n == 0)
                         {
+                            isOnlyDays = true;
+                        }
+
+                        var dT = (int)(Math.Round(timeSpan.TotalHours) / n);
+
+                        for (int i = 0; i < n; i++)
+                        {
+                            if (isOnlyDays)
+                            {
+                                chartMeasurement.Labels.Add(dateFrom.Value.AddHours(dT * i).ToString("dd.MM.yy"));
+                            }
+                            else
+                            {
+                                chartMeasurement.Labels.Add(dateFrom.Value.AddHours(dT * i).ToString("dd.MM.yy HH:mm"));
+                            }
+                            chartMeasurement.Data.Add(decimal.Round(measurements
+                            .Where(m => (m.DateCreated.Value >= dateFrom.Value.AddHours(dT * i)) && (m.DateCreated.Value < dateFrom.Value.AddHours(dT * (i + 1))))
+                            .ToList()
+                            .Select(m => m.Value)
+                            .DefaultIfEmpty()
+                            .Average(), 2, MidpointRounding.AwayFromZero));
+                        }
+
+
+                    }
+                    else if (dateFrom.HasValue && !dateTo.HasValue)
+                    {
+                        int dT = 0;
+                        if (DateTime.Today == dateFrom)
+                        {
+                            var timeSpan = DateTime.Now - dateFrom.Value;
+                            dT = (int)((timeSpan.TotalMinutes) / n);
+
 
                         }
                         else
                         {
-
+                            dT = 1440 / n;
                         }
-                    } 
-                    else if(dateTo.HasValue && !dateFrom.HasValue)
-                    {
 
+                        for (int i = 0; i < n; i++)
+                        {
+
+                            chartMeasurement.Labels.Add(dateFrom.Value.AddMinutes(dT * i).ToString("HH:mm"));
+                            chartMeasurement.Data.Add(decimal.Round(measurements
+                                .Where(m => (m.DateCreated.Value >= dateFrom.Value.AddMinutes(dT * i)) && (m.DateCreated.Value < dateFrom.Value.AddMinutes(dT * (i + 1))))
+                                .Select(m => m.Value)
+                                .DefaultIfEmpty()
+                                .Average(),2, MidpointRounding.AwayFromZero));
+                        }
                     }
 
-                    farmMeasurements.Add(farmSensor.Sensor.SensorTypeId, chartMeasurement);
+                    farmMeasurements.Add(chartMeasurement);
                 }
 
                 return farmMeasurements;
@@ -93,4 +141,5 @@ namespace IoTomatoes.Application.Services
             return null;
         }
     }
+
 }

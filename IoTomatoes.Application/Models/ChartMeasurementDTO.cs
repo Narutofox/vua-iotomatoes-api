@@ -10,5 +10,11 @@ namespace IoTomatoes.Application.Models
         public int SensorTypeId { get; set; }
         public List<string> Labels { get; set; }
         public List<decimal> Data { get; set; }
+
+        public ChartMeasurementDTO()
+        {
+            Labels = new List<string>();
+            Data = new List<decimal>();
+        }
     }
 }
