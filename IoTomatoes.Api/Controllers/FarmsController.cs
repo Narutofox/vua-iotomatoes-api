@@ -33,6 +33,12 @@ namespace IoTomatoes.Api.Controllers
             return _farmService.GetAll();
         }
 
+        [HttpGet("list")]
+        public List<ListItemDTO> GetList()
+        {
+            return _farmService.GetList();
+        }
+
         // GET: api/farms/4
         [HttpGet("{id}")]
         public FarmDTO Get(int id)

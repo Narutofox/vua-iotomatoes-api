@@ -56,6 +56,10 @@ namespace IoTomatoes.Application.Mappings
                 .ForMember(x => x.Text, opt => opt.MapFrom(x => $"{x.Code} ({x.SensorType.Name})"))
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
 
+            CreateMap<Farm, ListItemDTO>()
+                .ForMember(x => x.Text, opt => opt.MapFrom(x => x.Name))
+                .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
+
             CreateMap<Plant, ListItemDTO>()
                 .ForMember(x => x.Text, opt => opt.MapFrom(x => x.Name))
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));

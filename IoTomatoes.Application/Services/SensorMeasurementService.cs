@@ -147,6 +147,29 @@ namespace IoTomatoes.Application.Services
 
             return null;
         }
+
+        public Dictionary<int, decimal> GetLastFarmMeasurements(int farmId)
+        {
+            var farm = _farmRepository.Get(farmId);
+            var lastFarmMeasurements = new Dictionary<int, decimal>();
+
+            if(farm != null)
+            {
+                var farmSensors = farm.FarmSensors;
+                foreach(var farmSensor in farmSensors)
+                {
+                    var measurement = _farmSensorMeasurementRepository.GetLastSensorMeasurement(farmSensor.Id);
+                    var sensorTypeId = farmSensor.Sensor.SensorTypeId;
+
+                    if (!lastFarmMeasurements.ContainsKey(sensorTypeId))
+                    {
+                        lastFarmMeasurements.Add(sensorTypeId, measurement.Value);
+                    }
+                }
+            }
+
+            return lastFarmMeasurements;
+        }
     }
 
 }

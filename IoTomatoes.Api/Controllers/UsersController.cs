@@ -48,6 +48,12 @@ namespace IoTomatoes.Api.Controllers
             return _farmService.GetByUserId(id);
         }
 
+        [HttpGet("{id}/farms/list")]
+        public List<ListItemDTO> GetUserFarmsList(int id)
+        {
+            return _farmService.GetListByUserId(id);
+        }
+
         [HttpPost("login")]
         public ActionResult<UserDTO> Login([FromBody] LoginUserDTO user)
         {

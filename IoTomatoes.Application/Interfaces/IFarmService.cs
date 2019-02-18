@@ -9,6 +9,8 @@ namespace IoTomatoes.Application.Interfaces
     {
         FarmDTO Get(int id);
         List<FarmDTO> GetAll();
+        List<ListItemDTO> GetList();
+        List<ListItemDTO> GetListByUserId(int userId);
         void Remove(int id);
         void Update(UpdateFarmDTO farm);
         void Create(CreateFarmDTO farm);

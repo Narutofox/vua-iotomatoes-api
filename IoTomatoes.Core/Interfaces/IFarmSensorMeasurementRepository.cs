@@ -9,5 +9,6 @@ namespace IoTomatoes.Domain.Interfaces
     {
         List<FarmSensorMeasurement> GetBySensorId(int sensorId);
         List<FarmSensorMeasurement> GetSensorMeasurements(int farmSensorId, DateTime? dateFrom, DateTime? dateTo);
+        FarmSensorMeasurement GetLastSensorMeasurement(int farmSensorId);
     }
 }

@@ -32,6 +32,12 @@ namespace IoTomatoes.Api.Controllers
             return _sensorMeasurementService.GetFarmMeasurements(farmId, dateFrom, dateTo);
         }
 
+        [HttpGet("current")]
+        public Dictionary<int, decimal> GetLastFarmMeasurements(int farmId)
+        {
+            return _sensorMeasurementService.GetLastFarmMeasurements(farmId);
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] Dictionary<int, decimal> farmSensorsMeasurements) {
             _sensorMeasurementService.CreateFromDictionary(farmSensorsMeasurements);

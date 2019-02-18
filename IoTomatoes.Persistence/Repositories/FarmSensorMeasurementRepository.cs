@@ -21,6 +21,13 @@ namespace IoTomatoes.Persistence.Repositories
                 .ToList();
         }
 
+        public FarmSensorMeasurement GetLastSensorMeasurement(int farmSensorId)
+        {
+            return Context.FarmSensorMeasurements
+                .Where(fsm => fsm.FarmSensorId.Equals(farmSensorId))
+                .LastOrDefault();
+        }
+
         public List<FarmSensorMeasurement> GetSensorMeasurements(int farmSensorId, DateTime? dateFrom, DateTime? dateTo)
         {
             var sensorQuery = Context.FarmSensorMeasurements

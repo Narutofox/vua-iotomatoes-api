@@ -41,8 +41,7 @@ namespace IoTomatoes.Application.Services
 
         public List<FarmDTO> GetByUserId(int userId)
         {
-            var farms = _farmRepository.GetByUserId(userId);
-            return farms
+            return _farmRepository.GetByUserId(userId)
                     .Select(farm => _mapper.Map<FarmDTO>(farm))
                     .ToList();
         }
@@ -98,6 +97,20 @@ namespace IoTomatoes.Application.Services
             var removeFarm = _farmRepository.Get(id);
             _farmRepository.Remove(removeFarm);
             _farmRepository.Commit();
+        }
+
+        public List<ListItemDTO> GetList()
+        {
+            return _farmRepository.GetAll()
+                .Select(farm => _mapper.Map<ListItemDTO>(farm))
+                .ToList();
+        }
+
+        public List<ListItemDTO> GetListByUserId(int userId)
+        {
+            return _farmRepository.GetByUserId(userId)
+                    .Select(farm => _mapper.Map<ListItemDTO>(farm))
+                    .ToList();
         }
     }
 }
