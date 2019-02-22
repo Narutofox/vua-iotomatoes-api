@@ -163,7 +163,7 @@ namespace IoTomatoes.Application.Services
 
                     if (!lastFarmMeasurements.ContainsKey(sensorTypeId))
                     {
-                        lastFarmMeasurements.Add(sensorTypeId, measurement.Value);
+                        lastFarmMeasurements.Add(sensorTypeId, measurement != null ? measurement.Value : 0M);
                     }
                 }
             }
