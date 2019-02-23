@@ -15,7 +15,6 @@ namespace IoTomatoes.Api.Controllers
         private readonly IUserService _userService;
         private readonly IFarmService _farmService;
 
-
         public UsersController(IUserService userService, IFarmService farmService)
         {
             _userService = userService;
@@ -87,6 +86,13 @@ namespace IoTomatoes.Api.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPut("{id}/status")]
+        public IActionResult Put(int id)
+        {
+            _userService.UpdateStatus(id);
+            return Ok();
         }
 
         // DELETE api/users/5

@@ -73,6 +73,7 @@ namespace IoTomatoes.Application.Services
         public List<ListItemDTO> GetList()
         {
             return _userRepository.GetAll()
+                .Where(x => x.Active == 1)
                 .Select(user => _mapper.Map<ListItemDTO>(user))
                 .ToList();
         }
@@ -94,6 +95,20 @@ namespace IoTomatoes.Application.Services
             var user = _userRepository.Get(id);
             _userRepository.Remove(user);
             _userRepository.Commit();
+        }
+
+        public void UpdateStatus(int id)
+        {
+            var user = _userRepository.Get(id);
+
+            if (user != null)
+            {
+                user.Active = user.Active == 1 ? 0 : 1;
+                user.DateModified = DateTime.Now;
+
+                _userRepository.Update(user);
+                _userRepository.Commit();
+            }
         }
     }
 }

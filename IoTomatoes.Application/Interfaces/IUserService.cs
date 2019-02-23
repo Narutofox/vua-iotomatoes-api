@@ -13,6 +13,7 @@ namespace IoTomatoes.Application.Interfaces
         List<ListItemDTO> GetList();
         void Create(CreateUserDTO user);
         UserDTO Update(UpdateUserDTO user);
+        void UpdateStatus(int id);
         void Remove(int id);
     }
 }

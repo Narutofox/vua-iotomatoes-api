@@ -19,7 +19,7 @@ namespace IoTomatoes.Persistence.Repositories
         {
             return Context.Users
                 .Include(u => u.Role)
-                .FirstOrDefault(x => x.Username.Equals(username) && x.Password.Equals(password));
+                .FirstOrDefault(x => x.Username.Equals(username) && x.Password.Equals(password) && x.Active == 1);
         }
 
         public override List<User> GetAll()
