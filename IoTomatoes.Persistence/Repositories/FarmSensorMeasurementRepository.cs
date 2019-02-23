@@ -24,7 +24,7 @@ namespace IoTomatoes.Persistence.Repositories
         public FarmSensorMeasurement GetLastSensorMeasurement(int farmSensorId)
         {
             return Context.FarmSensorMeasurements
-                .Where(fsm => fsm.FarmSensorId.Equals(farmSensorId) && fsm.DateCreated == DateTime.Now)
+                .Where(fsm => fsm.FarmSensorId.Equals(farmSensorId) && fsm.DateCreated.Value.Date == DateTime.Now.Date)
                 .LastOrDefault();
         }
 
