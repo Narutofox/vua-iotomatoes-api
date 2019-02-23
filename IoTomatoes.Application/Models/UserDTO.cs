@@ -12,5 +12,7 @@ namespace IoTomatoes.Application.Models
         public int RoleId { get; set; }
         public string RoleCode { get; set; }
         public bool Active { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateModified { get; set; }
     }
 }

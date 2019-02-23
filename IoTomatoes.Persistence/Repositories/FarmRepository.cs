@@ -22,6 +22,8 @@ namespace IoTomatoes.Persistence.Repositories
                     .ThenInclude(x => x.Sensor)
                 .Include(x => x.RuleSet)
                     .ThenInclude(x => x.Rules)
+                .Include(x => x.FarmPlants)
+                .Include(x => x.FarmActuators)
                 .FirstOrDefault(x => x.Id.Equals(id));
         }
 

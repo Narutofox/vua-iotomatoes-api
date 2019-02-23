@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace IoTomatoes.Application.Models
 {
     public class FarmDTO
@@ -15,6 +17,9 @@ namespace IoTomatoes.Application.Models
         public string RuleSetName { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
+        public List<int> SensorIds { get; set; }
+        public List<int> PlantIds { get; set; }
+        public List<int> ActuatorIds { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
     }

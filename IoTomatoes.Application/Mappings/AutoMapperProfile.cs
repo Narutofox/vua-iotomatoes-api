@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AutoMapper;
 using IoTomatoes.Application.Infrastructure;
 using IoTomatoes.Application.Models;
@@ -26,9 +27,16 @@ namespace IoTomatoes.Application.Mappings
 
             CreateMap<Farm, FarmDTO>()
                 .ForMember(x => x.UserFullName, opt => opt.MapFrom(x => $"{x.User.FirstName} {x.User.LastName}"))
+                .ForMember(x => x.SensorIds, opt => opt.MapFrom(x => x.FarmSensors.Select(y => y.SensorId)))
+                .ForMember(x => x.PlantIds, opt => opt.MapFrom(x => x.FarmPlants.Select(y => y.PlantId)))
+                .ForMember(x => x.ActuatorIds, opt => opt.MapFrom(x => x.FarmActuators.Select(y => y.ActuatorId)))
                 .ReverseMap();
 
-            CreateMap<CreateFarmDTO, Farm>();
+            CreateMap<CreateFarmDTO, Farm>()
+                .ForMember(src => src.RuleSetId, opt => opt.MapFrom(x => x.RuleSetId))
+                .ForMember(src => src.UserId, opt => opt.MapFrom(x => x.UserId))
+                .ForMember(src => src.CityId, opt => opt.MapFrom(x => x.CityId));
+
             CreateMap<UpdateFarmDTO, Farm>()
                 .ForMember(src => src.Id, opt => opt.Ignore())
                 .ForMember(src => src.DateCreated, opt => opt.Ignore());
