@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using IoTomatoes.Application.Models;
 using IoTomatoes.Application.Models.Farm;
 

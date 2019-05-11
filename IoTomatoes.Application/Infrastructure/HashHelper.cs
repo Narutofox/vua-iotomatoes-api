@@ -1,12 +1,11 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace IoTomatoes.Application.Infrastructure
 {
     public static class HashHelper
     {
-        public static string CreateMD5(string input)
+        public static string CreateMd5(string input)
         {
             // Use input string to calculate MD5 hash
             using (MD5 md5 = MD5.Create())

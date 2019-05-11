@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +18,7 @@ namespace IoTomatoes.Api
 {
     public class Startup
     {
-        private const string SWAGGER_URL = "/swagger/v1/swagger.json";
+        private const string SwaggerUrl = "/swagger/v1/swagger.json";
 
         public Startup(IConfiguration configuration)
         {
@@ -116,7 +115,7 @@ namespace IoTomatoes.Api
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint(SWAGGER_URL, "IoTomatoes API V1");
+                c.SwaggerEndpoint(SwaggerUrl, "IoTomatoes API V1");
             });
 
             app.UseMvc();

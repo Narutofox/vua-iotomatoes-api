@@ -5,12 +5,6 @@ namespace IoTomatoes.Domain.Models
 {
     public class RuleSet
     {
-        public RuleSet()
-        {
-            Farms = new HashSet<Farm>();
-            Rules = new HashSet<Rule>();
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
@@ -18,7 +12,7 @@ namespace IoTomatoes.Domain.Models
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
 
-        public virtual ICollection<Farm> Farms { get; set; }
-        public virtual ICollection<Rule> Rules { get; set; }
+        public virtual ICollection<Farm> Farms { get; set; } = new HashSet<Farm>();
+        public virtual ICollection<Rule> Rules { get; set; } = new HashSet<Rule>();
     }
 }

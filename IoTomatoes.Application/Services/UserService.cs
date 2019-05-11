@@ -39,7 +39,7 @@ namespace IoTomatoes.Application.Services
 
             if (!dbUser.Password.Equals(user.Password))
             {
-                dbUser.Password = HashHelper.CreateMD5(user.Password);
+                dbUser.Password = HashHelper.CreateMd5(user.Password);
             }
 
             dbUser.Email = user.Email;
@@ -80,7 +80,7 @@ namespace IoTomatoes.Application.Services
 
         public UserDTO Login(string username, string password)
         {
-            var user = _userRepository.Login(username, HashHelper.CreateMD5(password));
+            var user = _userRepository.Login(username, HashHelper.CreateMd5(password));
 
             if (user != null)
             {

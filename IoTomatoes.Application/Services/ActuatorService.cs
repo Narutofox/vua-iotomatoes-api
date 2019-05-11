@@ -2,10 +2,8 @@
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
 using IoTomatoes.Domain.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace IoTomatoes.Application.Services
 {

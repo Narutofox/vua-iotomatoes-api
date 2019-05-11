@@ -99,8 +99,9 @@ namespace IoTomatoes.Application.Services
                             string label = dateFromWithAddedHours.ToString(dateFormat);
                             chartMeasurement.Labels.Add(label);
 
+                            int index = i;
                             var decimalMeasurements = measurements
-                                .Where(m => (m.DateCreated.Value >= dateFromWithAddedHours) && (m.DateCreated.Value < dateFrom.Value.AddHours(dT * (i + 1))))
+                                .Where(m => m.DateCreated != null && m.DateCreated.Value >= dateFromWithAddedHours && (m.DateCreated.Value < dateFrom.Value.AddHours(dT * (index + 1))))
                                 .Select(m => m.Value)
                                 .DefaultIfEmpty();
 
@@ -108,9 +109,9 @@ namespace IoTomatoes.Application.Services
                             chartMeasurement.Data.Add(measurement);
                         }
                     }
-                    else if (dateFrom.HasValue && !dateTo.HasValue)
+                    else if (dateFrom.HasValue)
                     {
-                        int dT = 0;
+                        int dT;
 
                         if (DateTime.Today == dateFrom)
                         {
@@ -129,8 +130,9 @@ namespace IoTomatoes.Application.Services
                             string label = dateFromWithAddedMinutes.ToString("HH:mm");
                             chartMeasurement.Labels.Add(label);
 
+                            var index = i;
                             var decimalMeasurements = measurements
-                                .Where(m => (m.DateCreated.Value >= dateFromWithAddedMinutes) && (m.DateCreated.Value < dateFrom.Value.AddMinutes(dT * (i + 1))))
+                                .Where(m => m.DateCreated != null && m.DateCreated.Value >= dateFromWithAddedMinutes && (m.DateCreated.Value < dateFrom.Value.AddMinutes(dT * (index + 1))))
                                 .Select(m => m.Value)
                                 .DefaultIfEmpty();
 

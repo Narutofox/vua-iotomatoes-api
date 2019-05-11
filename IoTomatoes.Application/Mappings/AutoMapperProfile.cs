@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using AutoMapper;
 using IoTomatoes.Application.Infrastructure;
 using IoTomatoes.Application.Models;
@@ -44,7 +43,7 @@ namespace IoTomatoes.Application.Mappings
             CreateMap<User, UserDTO>().ReverseMap();
 
             CreateMap<CreateUserDTO, User>()
-                .ForMember(src => src.Password, opt => opt.MapFrom(x => HashHelper.CreateMD5(x.Password)));
+                .ForMember(src => src.Password, opt => opt.MapFrom(x => HashHelper.CreateMd5(x.Password)));
 
             CreateMap<Country, CountryDTO>().ReverseMap();
             CreateMap<City, CityDTO>()
