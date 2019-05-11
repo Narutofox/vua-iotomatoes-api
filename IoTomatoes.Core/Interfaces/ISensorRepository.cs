@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using IoTomatoes.Domain.Models;
+﻿using IoTomatoes.Domain.Models;
 
 namespace IoTomatoes.Domain.Interfaces
 {

@@ -5,11 +5,6 @@ namespace IoTomatoes.Domain.Models
 {
     public class Country
     {
-        public Country()
-        {
-            Cities = new HashSet<City>();
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
@@ -17,6 +12,6 @@ namespace IoTomatoes.Domain.Models
         public DateTime? DateModified { get; set; }
         public int? Version { get; set; }
 
-        public virtual ICollection<City> Cities { get; set; }
+        public virtual ICollection<City> Cities { get; set; } = new HashSet<City>();
     }
 }

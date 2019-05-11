@@ -5,11 +5,6 @@ namespace IoTomatoes.Domain.Models
 {
     public class User
     {
-        public User()
-        {
-            Farms = new HashSet<Farm>();
-        }
-
         public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -22,6 +17,6 @@ namespace IoTomatoes.Domain.Models
         public DateTime? DateModified { get; set; }
 
         public virtual Role Role { get; set; }
-        public virtual ICollection<Farm> Farms { get; set; }
+        public virtual ICollection<Farm> Farms { get; set; } = new HashSet<Farm>();
     }
 }

@@ -5,11 +5,6 @@ namespace IoTomatoes.Domain.Models
 {
     public class ActuatorType
     {
-        public ActuatorType()
-        {
-            Actuators = new HashSet<Actuator>();
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
@@ -17,6 +12,6 @@ namespace IoTomatoes.Domain.Models
         public DateTime? DateModified { get; set; }
         public int? Version { get; set; }
 
-        public virtual ICollection<Actuator> Actuators { get; set; }
+        public virtual ICollection<Actuator> Actuators { get; set; } = new HashSet<Actuator>();
     }
 }

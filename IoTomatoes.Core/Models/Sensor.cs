@@ -5,11 +5,6 @@ namespace IoTomatoes.Domain.Models
 {
     public class Sensor
     {
-        public Sensor()
-        {
-            FarmSensors = new HashSet<FarmSensor>();
-        }
-
         public int Id { get; set; }
         public string Code { get; set; }
         public int SensorTypeId { get; set; }
@@ -20,6 +15,6 @@ namespace IoTomatoes.Domain.Models
 
         public virtual MeasuringUnit MeasuringUnit { get; set; }
         public virtual SensorType SensorType { get; set; }
-        public virtual ICollection<FarmSensor> FarmSensors { get; set; }
+        public virtual ICollection<FarmSensor> FarmSensors { get; set; } = new HashSet<FarmSensor>();
     }
 }
