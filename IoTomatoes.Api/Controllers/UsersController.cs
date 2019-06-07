@@ -53,7 +53,7 @@ namespace IoTomatoes.Api.Controllers
         [HttpPost("login")]
         public ActionResult<UserDTO> Login([FromBody] LoginUserDTO user)
         {
-            var loggedIn = _userService.Login(user.Username, user.Password);
+            UserDTO loggedIn = _userService.Login(user.Username, user.Password);
 
             if(loggedIn != null)
             {
