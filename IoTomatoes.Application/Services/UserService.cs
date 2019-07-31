@@ -80,7 +80,8 @@ namespace IoTomatoes.Application.Services
 
         public UserDTO Login(string username, string password)
         {
-            var user = _userRepository.Login(username, HashHelper.CreateMd5(password));
+            string hash = HashHelper.CreateMd5(password);
+            var user = _userRepository.Login(username, hash);
 
             if (user != null)
             {
