@@ -15,7 +15,9 @@ namespace IoTomatoes.Application.Services
         private readonly IFarmRepository _farmRepository;
         private readonly IMapper _mapper;
 
-        public SensorMeasurementService(IFarmSensorMeasurementRepository farmSensorMeasurementRepository, IFarmRepository farmRepository, IMapper mapper)
+        public SensorMeasurementService(IFarmSensorMeasurementRepository farmSensorMeasurementRepository, 
+            IFarmRepository farmRepository,
+            IMapper mapper)
         {
             _farmSensorMeasurementRepository = farmSensorMeasurementRepository;
             _farmRepository = farmRepository;
@@ -153,9 +155,8 @@ namespace IoTomatoes.Application.Services
         public Dictionary<int, decimal> GetLastFarmMeasurements(int farmId)
         {
             var farm = _farmRepository.Get(farmId);
-            var lastFarmMeasurements = new Dictionary<int, decimal>();
-
-            if(farm != null)
+            Dictionary<int, decimal> lastFarmMeasurements = new Dictionary<int, decimal>();
+            if (farm != null)
             {
                 var farmSensors = farm.FarmSensors;
                 foreach(var farmSensor in farmSensors)
@@ -172,6 +173,16 @@ namespace IoTomatoes.Application.Services
 
             return lastFarmMeasurements;
         }
+
+        //public IList<LastFarmMeasurementDTO> GetLastFarmMeasurements(int farmId)
+        //{
+        //    return (
+        //        from farmSensors in _farmSensorMeasurementRepository.SelectFarmSensors()
+        //     join farmSensorMeasurements in _farmSensorMeasurementRepository.SelectFarmSensorMeasurements() on farmSensors.Id equals farmSensorMeasurements.FarmSensorId
+        //     join sensors in _farmSensorMeasurementRepository.SelectSensors() on farmSensors.SensorId equals sensors.Id
+        //     join measuringUnits in _farmSensorMeasurementRepository.SelectMeasuringUnits() on sensors.MeasuringUnitId equals measuringUnits.Id
+        //     ).Select(sm => _mapper.Map<LastFarmMeasurementDTO>(sm)).ToList();
+        //}
     }
 
 }

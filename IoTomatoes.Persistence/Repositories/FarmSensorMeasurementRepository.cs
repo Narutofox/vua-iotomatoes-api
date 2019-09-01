@@ -24,8 +24,30 @@ namespace IoTomatoes.Persistence.Repositories
         public FarmSensorMeasurement GetLastSensorMeasurement(int farmSensorId)
         {
             return Context.FarmSensorMeasurements
-                .Where(fsm => fsm.FarmSensorId.Equals(farmSensorId) && fsm.DateCreated.Value.Date == DateTime.Now.Date)
-                .LastOrDefault();
+                .Where(fsm => fsm.FarmSensorId.Equals(farmSensorId))
+                .OrderByDescending(x=>x.DateCreated)
+                .FirstOrDefault();
+
+        }
+
+        public IQueryable<FarmSensor> SelectFarmSensors()
+        {
+            return Context.FarmSensors;
+        }
+
+        public IQueryable<MeasuringUnit> SelectMeasuringUnits() 
+        { 
+            return Context.MeasuringUnits;
+        }
+
+        public IQueryable<Sensor> SelectSensors()
+        {
+            return Context.Sensors;
+        }
+
+        public IQueryable<FarmSensorMeasurement> SelectFarmSensorMeasurements()
+        {
+            return Context.FarmSensorMeasurements;
         }
 
         public List<FarmSensorMeasurement> GetSensorMeasurements(int farmSensorId, DateTime? dateFrom, DateTime? dateTo)
