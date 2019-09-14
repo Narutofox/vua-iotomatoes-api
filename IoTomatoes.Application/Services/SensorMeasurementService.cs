@@ -129,16 +129,29 @@ namespace IoTomatoes.Application.Services
                         for (int i = 0; i < n; i++)
                         {
                             var dateFromWithAddedMinutes = dateFrom.Value.AddMinutes(dT * i);
-                            string label = dateFromWithAddedMinutes.ToString("HH:mm");
-                            chartMeasurement.Labels.Add(label);
-
+                           
                             var index = i;
                             var decimalMeasurements = measurements
                                 .Where(m => m.DateCreated != null && m.DateCreated.Value >= dateFromWithAddedMinutes && (m.DateCreated.Value < dateFrom.Value.AddMinutes(dT * (index + 1))))
                                 .Select(m => m.Value)
                                 .DefaultIfEmpty();
 
-                            decimal measurement = decimal.Round(decimalMeasurements.Average(), 2, MidpointRounding.AwayFromZero);
+                            decimal measurement = 0;
+                           /* if (decimalMeasurements.All(x=>x <= 0))
+                            {
+                                var lastMeasurement = _farmSensorMeasurementRepository.GetLastSensorMeasurement(farmSensor.Id);
+                                if (lastMeasurement != null)
+                                {
+                                    measurement = lastMeasurement.Value;
+                                    chartMeasurement.Labels.Add(lastMeasurement.DateCreated.Value.ToString("dd.MM.yyyy HH:mm"));
+                                }
+                            }
+                            else
+                            {*/
+                                string label = dateFromWithAddedMinutes.ToString("HH:mm");
+                                chartMeasurement.Labels.Add(label);
+                                measurement = decimal.Round(decimalMeasurements.Average(), 2, MidpointRounding.AwayFromZero);
+                           // }
                             chartMeasurement.Data.Add(measurement);
                         }
                     }
@@ -174,15 +187,38 @@ namespace IoTomatoes.Application.Services
             return lastFarmMeasurements;
         }
 
-        //public IList<LastFarmMeasurementDTO> GetLastFarmMeasurements(int farmId)
-        //{
-        //    return (
-        //        from farmSensors in _farmSensorMeasurementRepository.SelectFarmSensors()
-        //     join farmSensorMeasurements in _farmSensorMeasurementRepository.SelectFarmSensorMeasurements() on farmSensors.Id equals farmSensorMeasurements.FarmSensorId
-        //     join sensors in _farmSensorMeasurementRepository.SelectSensors() on farmSensors.SensorId equals sensors.Id
-        //     join measuringUnits in _farmSensorMeasurementRepository.SelectMeasuringUnits() on sensors.MeasuringUnitId equals measuringUnits.Id
-        //     ).Select(sm => _mapper.Map<LastFarmMeasurementDTO>(sm)).ToList();
-        //}
+        public List<ChartMeasurementDTO> GetLastFarmMeasurements2(int farmId)
+        {
+            var farm = _farmRepository.Get(farmId);
+
+            if (farm != null)
+            {
+                ICollection<FarmSensor> farmSensors = farm.FarmSensors;
+                var farmMeasurements = new List<ChartMeasurementDTO>();
+
+                foreach (var farmSensor in farmSensors)
+                {
+                    FarmSensorMeasurement measurements = _farmSensorMeasurementRepository.GetLastSensorMeasurement(farmSensor.Id);
+                    ChartMeasurementDTO chartMeasurement = new ChartMeasurementDTO
+                    {
+                        FarmSensorId = farmSensor.Id,
+                        SensorTypeId = farmSensor.Sensor.SensorTypeId
+                    };
+
+                    string label = measurements.DateCreated.Value.ToString("dd.MM.yyyy HH:mm");
+                    chartMeasurement.Labels.Add(label);
+
+                    decimal measurement = decimal.Round(measurements.Value, 2, MidpointRounding.AwayFromZero);
+                    chartMeasurement.Data.Add(measurement);
+                               
+                    farmMeasurements.Add(chartMeasurement);
+                }
+
+                return farmMeasurements;
+            }
+
+            return null;
+        }
     }
 
 }

@@ -3,9 +3,7 @@ using IoTomatoes.Domain.Interfaces;
 using IoTomatoes.Persistence.Commons;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace IoTomatoes.Persistence.Repositories
 {
@@ -48,6 +46,11 @@ namespace IoTomatoes.Persistence.Repositories
         public IQueryable<FarmSensorMeasurement> SelectFarmSensorMeasurements()
         {
             return Context.FarmSensorMeasurements;
+        }
+
+        public IQueryable<SensorType> SelectSensorTypes()
+        {
+            return Context.SensorTypes;
         }
 
         public List<FarmSensorMeasurement> GetSensorMeasurements(int farmSensorId, DateTime? dateFrom, DateTime? dateTo)

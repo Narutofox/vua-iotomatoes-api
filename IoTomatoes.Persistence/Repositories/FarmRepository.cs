@@ -44,5 +44,15 @@ namespace IoTomatoes.Persistence.Repositories
                 .Where(x => x.UserId.Equals(userId))
                 .ToList();
         }
+
+        public IQueryable<Farm> SelectFarms()
+        {
+            return Context.Farms;
+        }
+
+        public IQueryable<FarmSensor> SelectFarmSensors()
+        {
+            return Context.FarmSensors;
+        }
     }
 }

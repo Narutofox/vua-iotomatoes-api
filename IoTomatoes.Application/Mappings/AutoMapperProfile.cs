@@ -88,12 +88,6 @@ namespace IoTomatoes.Application.Mappings
                 .ForMember(x => x.Text, opt => opt.MapFrom(x => $"{x.Name} ({x.Code})"))
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
 
-            CreateMap<FarmSensor, LastFarmMeasurementDTO>().ForMember(x=>x.SensorName , opt => opt.MapFrom(x=>x.Name));
-            CreateMap<MeasuringUnit, LastFarmMeasurementDTO>().ForMember(x=>x.MeasuringUnitCode , opt => opt.MapFrom(x=>x.Code));
-            CreateMap<FarmSensorMeasurement, LastFarmMeasurementDTO>()
-                .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Value))
-                .ForMember(x => x.DateCreated, opt => opt.MapFrom(x => x.DateCreated));
-
         }
     }
 }

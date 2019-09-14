@@ -13,16 +13,20 @@ using AutoMapper;
 using IoTomatoes.Domain.Interfaces;
 using IoTomatoes.Persistence.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
+using IoTomatoes.Api.Hubs;
+using IoTomatoes.Api.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace IoTomatoes.Api
 {
     public class Startup
     {
         private const string SwaggerUrl = "/swagger/v1/swagger.json";
-
-        public Startup(IConfiguration configuration)
+        private readonly ILogger _logger;
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
+            _logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -63,9 +67,20 @@ namespace IoTomatoes.Api
             services.AddTransient<IActuatorRepository, ActuatorRepository>();
             services.AddTransient<IActuatorService, ActuatorService>();
 
+            services.AddSignalR();
             services.AddCors(options =>
             {
-                options.AddPolicy("VueCors", policy =>
+                options.AddPolicy("VueCorsDev", policy =>
+                {
+                    policy
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                       // .AllowAnyOrigin();
+                        .WithOrigins("https://localhost:443", "http://localhost:8081", "https://localhost:8081");
+                });
+
+                options.AddPolicy("VueCorsProd", policy =>
                 {
                     policy
                         .AllowAnyHeader()
@@ -98,15 +113,17 @@ namespace IoTomatoes.Api
         {
             if (env.IsDevelopment() || env.IsEnvironment("Docker"))
             {
+                app.ConfigureExceptionHandler(_logger);
                 app.UseDeveloperExceptionPage();
+                app.UseCors("VueCorsDev");
             }
             else
             {
                 app.UseHsts();
+                app.UseCors("VueCorsProd");
             }
+            app.UseOptions();
 
-            
-            app.UseCors("VueCors");
             app.UseHttpsRedirection();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
@@ -118,7 +135,12 @@ namespace IoTomatoes.Api
             {
                 c.SwaggerEndpoint(SwaggerUrl, "IoTomatoes API V1");
             });
-            
+
+            app.UseSignalR(route =>
+            {
+                route.MapHub<SensorMeasurementHub>("/sensorMeasurementHub");
+            });
+
             app.UseMvc();
         }
     }

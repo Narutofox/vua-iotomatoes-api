@@ -14,5 +14,6 @@ namespace IoTomatoes.Domain.Interfaces
         IQueryable<MeasuringUnit> SelectMeasuringUnits();
         IQueryable<Sensor> SelectSensors();
         IQueryable<FarmSensorMeasurement> SelectFarmSensorMeasurements();
+        IQueryable<SensorType> SelectSensorTypes();        
     }
 }

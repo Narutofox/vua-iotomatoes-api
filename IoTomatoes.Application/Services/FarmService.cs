@@ -112,5 +112,14 @@ namespace IoTomatoes.Application.Services
                     .Select(farm => _mapper.Map<ListItemDTO>(farm))
                     .ToList();
         }
+
+        public int[] GetFarmIdsByFarmSensoreIds(int[] farmSensorIds)
+        {
+         return (from farm in _farmRepository.SelectFarms()
+                 join sensor in _farmRepository.SelectFarmSensors() on farm.Id equals sensor.FarmId
+                 where farmSensorIds.Contains(sensor.SensorId)
+                 select farm.Id
+                ).Distinct().ToArray();
+        }
     }
 }
