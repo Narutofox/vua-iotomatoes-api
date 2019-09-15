@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
 using IoTomatoes.Application.Models.Farm;
+using IoTomatoes.Application.Models.RuleSet;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IoTomatoes.Api.Controllers
@@ -55,6 +57,45 @@ namespace IoTomatoes.Api.Controllers
             }
 
             return new Dictionary<string, string>();
+        }
+
+        [HttpGet("{id}/rules")]
+        public List<RuleDTO> GetRules(int id)
+        {
+            RuleSetDTO ruleSet = _ruleSetService.GetByFarm(id);
+
+            if (ruleSet != null)
+            {
+                return ruleSet.Rules;
+            }
+
+            return new List<RuleDTO>();
+        }
+
+        [HttpPost("{id}/createOrUpdateRules")]
+        public IActionResult CreateOrUpdateRules(int id, [FromBody] List<RuleDTO> rules)
+        {
+            RuleSetDTO ruleSet = _ruleSetService.GetByFarm(id);
+
+            if (ruleSet != null && rules.TrueForAll(x=>!string.IsNullOrEmpty(x.Code)))
+            {
+                
+                foreach (var rule in rules)
+                {
+                    rule.RuleSetId = ruleSet.Id;
+                    rule.Active = !string.IsNullOrEmpty(rule.Conditions);
+                    if (ruleSet.Rules.Any(x=>x.Code == rule.Code))
+                    {
+                        _ruleService.Update(rule);
+                    }
+                    else
+                    {
+                        _ruleService.Create(rule);
+                    }
+                }
+            }
+
+            return Ok();
         }
 
         // POST api/farms

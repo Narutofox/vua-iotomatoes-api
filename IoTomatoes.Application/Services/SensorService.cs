@@ -69,5 +69,12 @@ namespace IoTomatoes.Application.Services
                 .Select(sensor => _mapper.Map<ListItemDTO>(sensor))
                 .ToList();
         }
+
+        public List<ListItemDTO> GetSensoreType(string name)
+        {
+            return _sensorRepository.GetAll()
+                .Select(sensor => _mapper.Map<ListItemDTO>(sensor))
+                .ToList();
+        }
     }
 }

@@ -6,5 +6,6 @@ namespace IoTomatoes.Domain.Interfaces
     public interface IRuleRepository : IGenericRepository<Rule>
     {
         List<Rule> GetByRuleSet(int ruleSetId);
+        bool Exists(Rule rule);
     }
 }

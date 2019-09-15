@@ -7,5 +7,7 @@ namespace IoTomatoes.Application.Interfaces
     {
         Dictionary<string, string> GetDictionary(List<RuleDTO> rules);
         List<ListItemDTO> GetList();
+        bool Create(RuleDTO ruleDTO);
+        bool Update(RuleDTO ruleDTO);
     }
 }

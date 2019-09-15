@@ -12,6 +12,9 @@ namespace IoTomatoes.Application.Interfaces
         RuleSetDTO Get(int id);
         void Create(CreateRuleSetDTO ruleSet);
         void Update(UpdateRuleSetDTO ruleSet);
+
+        void Update(RuleSetDTO ruleSet);
+
         void Remove(int id);
     }
 }

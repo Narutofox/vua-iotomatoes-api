@@ -48,6 +48,11 @@ namespace IoTomatoes.Persistence.Commons
             _context.Entry(entity).State = EntityState.Modified;
         }
 
+        public virtual void Detach(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Detached;
+        }
+
         public virtual int Commit()
         {
             return _context.SaveChanges();

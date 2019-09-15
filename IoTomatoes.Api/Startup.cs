@@ -58,6 +58,9 @@ namespace IoTomatoes.Api
             services.AddTransient<ISensorRepository, SensorRepository>();
             services.AddTransient<ISensorService, SensorService>();
 
+            services.AddTransient<ISensorTypeService, SensorTypeService>();
+            services.AddTransient<ISensorTypeRepository, SensorTypeRepository>();
+
             services.AddTransient<IFarmSensorMeasurementRepository, FarmSensorMeasurementRepository>();
             services.AddTransient<ISensorMeasurmentService, SensorMeasurementService>();
 

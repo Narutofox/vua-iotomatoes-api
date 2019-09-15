@@ -12,6 +12,9 @@ namespace IoTomatoes.Domain.Interfaces
         void Add(T entity);
         void Update(T entity);
         void Remove(T entity);
+
+        void Detach(T entity);
+
         int Commit();
     }
 }

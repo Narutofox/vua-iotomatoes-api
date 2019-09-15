@@ -72,5 +72,18 @@ namespace IoTomatoes.Application.Services
             _ruleSetRepository.Update(updateRuleSet);
             _ruleSetRepository.Commit();
         }
+
+        public void Update(RuleSetDTO ruleSet)
+        {
+            var updateRuleSet = _ruleSetRepository.Get(ruleSet.Id);
+            _mapper.Map(ruleSet, updateRuleSet);
+            updateRuleSet.DateModified = DateTime.Now;
+
+
+            _ruleSetRepository.Update(updateRuleSet);
+            _ruleSetRepository.Commit();
+        }
+
+        
     }
 }

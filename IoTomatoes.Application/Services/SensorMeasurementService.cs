@@ -137,21 +137,10 @@ namespace IoTomatoes.Application.Services
                                 .DefaultIfEmpty();
 
                             decimal measurement = 0;
-                           /* if (decimalMeasurements.All(x=>x <= 0))
-                            {
-                                var lastMeasurement = _farmSensorMeasurementRepository.GetLastSensorMeasurement(farmSensor.Id);
-                                if (lastMeasurement != null)
-                                {
-                                    measurement = lastMeasurement.Value;
-                                    chartMeasurement.Labels.Add(lastMeasurement.DateCreated.Value.ToString("dd.MM.yyyy HH:mm"));
-                                }
-                            }
-                            else
-                            {*/
-                                string label = dateFromWithAddedMinutes.ToString("HH:mm");
-                                chartMeasurement.Labels.Add(label);
-                                measurement = decimal.Round(decimalMeasurements.Average(), 2, MidpointRounding.AwayFromZero);
-                           // }
+
+                            string label = dateFromWithAddedMinutes.ToString("HH:mm");
+                            chartMeasurement.Labels.Add(label);
+                            measurement = decimal.Round(decimalMeasurements.Average(), 2, MidpointRounding.AwayFromZero);
                             chartMeasurement.Data.Add(measurement);
                         }
                     }

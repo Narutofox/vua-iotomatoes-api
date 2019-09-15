@@ -16,5 +16,18 @@ namespace IoTomatoes.Persistence.Repositories
         {
             return Context.Rules.Where(x => x.RuleSetId.Equals(ruleSetId)).ToList();
         }
+
+        public bool Exists(Rule rule)
+        {
+            if (rule.Id > 0)
+            {
+                return Context.Rules.Any(x => x.Id == rule.Id);
+            }
+            else if (!String.IsNullOrEmpty(rule.Code) && rule.RuleSetId > 0)
+            {
+                return Context.Rules.Any(x => x.Code == rule.Code && x.RuleSetId == rule.RuleSetId);
+            }
+            return false;
+        }
     }
 }
