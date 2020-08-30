@@ -13,12 +13,18 @@ namespace IoTomatoes.Application.Services
     public class FarmService : IFarmService
     {
         private readonly IFarmRepository _farmRepository;
+        private readonly ISensorRepository _sensorRepository;
+        private readonly IRuleSetRepository _ruleSetRepository;
         private readonly IMapper _mapper;
 
-        public FarmService(IFarmRepository farmRepository, IMapper mapper)
+        public FarmService(IFarmRepository farmRepository, 
+            ISensorRepository sensorRepository, IMapper mapper, 
+            IRuleSetRepository ruleSetRepository)
         {
             _farmRepository = farmRepository;
             _mapper = mapper;
+            _sensorRepository = sensorRepository;
+            _ruleSetRepository = ruleSetRepository;
         }
 
         public FarmDTO Get(int id)
@@ -62,7 +68,8 @@ namespace IoTomatoes.Application.Services
                 });
             }
 
-            foreach(var sensorId in farm.SensorIds)
+            farm.SensorIds = _sensorRepository.GetAll().Select(x=>x.Id).ToList();
+            foreach (var sensorId in farm.SensorIds)
             {
                 createFarm.FarmSensors.Add(new FarmSensor
                 {
@@ -81,6 +88,13 @@ namespace IoTomatoes.Application.Services
             }
 
             _farmRepository.Commit();
+            RuleSet ruleSet = new RuleSet { 
+                Active = 1, 
+                Name = createFarm.Id.ToString("D6"),
+                Code = createFarm.Id.ToString("D3")
+            };
+            _ruleSetRepository.Add(ruleSet);
+            _ruleSetRepository.Commit();
         }
         public void Update(UpdateFarmDTO farm)
         {

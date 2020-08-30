@@ -25,6 +25,13 @@ namespace IoTomatoes.Application.Services
                 .ToList();
         }
 
+        public List<ActuatorDTO> GetByFarm(int id)
+        {
+            return _actuatorRepository.GetByFarm(id)
+                .Select(actuator => _mapper.Map<ActuatorDTO>(actuator))
+                .ToList();
+        }
+
         public List<ListItemDTO> GetList()
         {
            return _actuatorRepository.GetAll()

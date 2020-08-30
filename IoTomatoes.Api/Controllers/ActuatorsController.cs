@@ -41,10 +41,11 @@ namespace IoTomatoes.Api.Controllers
         //{
         //}
 
-        //// PUT api/<controller>/5
+
         //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
+        //public void Put(int id, [FromBody] List<ActuatorDTO> actuators)
         //{
+        //    _actuatorService
         //}
 
         //// DELETE api/<controller>/5

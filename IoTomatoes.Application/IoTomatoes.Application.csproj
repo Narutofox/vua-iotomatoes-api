@@ -14,7 +14,6 @@
     <Folder Include="Models\RuleSet\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Services\FarmSensorService.cs" />
     <Compile Remove="Services\IoTomatoesContext.cs" />
   </ItemGroup>
   <ItemGroup>

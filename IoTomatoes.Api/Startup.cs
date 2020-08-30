@@ -70,6 +70,18 @@ namespace IoTomatoes.Api
             services.AddTransient<IActuatorRepository, ActuatorRepository>();
             services.AddTransient<IActuatorService, ActuatorService>();
 
+            services.AddTransient<IFarmActuatorRepository, FarmActuatorsRepository>();
+            services.AddTransient<IFarmActuatorService, FarmActuatorService>();
+
+            services.AddTransient<IFarmSensorMeasurmentRepository, FarmSensorRepository>();
+            services.AddTransient<IFarmSensorService, FarmSensorService>();
+
+            services.AddTransient<IFarmPlantRepository, FarmPlantRepository>();
+            services.AddTransient<IFarmPlantService, FarmPlantService>();
+
+            services.AddTransient<IMeasuringUnitRepository, MeasuringUnitRepository>();
+            services.AddTransient<IMeasuringUnitService, MeasuringUnitService>();
+
             services.AddSignalR();
             services.AddCors(options =>
             {
@@ -80,7 +92,7 @@ namespace IoTomatoes.Api
                         .AllowAnyMethod()
                         .AllowCredentials()
                        // .AllowAnyOrigin();
-                        .WithOrigins("https://localhost:443", "http://localhost:8081", "https://localhost:8081");
+                        .WithOrigins("https://localhost:443", "http://localhost:8081", "http://localhost:1337", "https://localhost:8081");
                 });
 
                 options.AddPolicy("VueCorsProd", policy =>

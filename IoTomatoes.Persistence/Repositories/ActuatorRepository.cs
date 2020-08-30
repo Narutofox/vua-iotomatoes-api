@@ -19,5 +19,13 @@ namespace IoTomatoes.Persistence.Repositories
                 .Include(x => x.ActuatorType)
                 .ToList();
         }
+
+        public List<Actuator> GetByFarm(int farmId)
+        {
+            return Context.FarmActutators
+                .Where(x=>x.FarmId == farmId)
+                .Select(x=>x.Actuator)
+                .ToList();
+        }
     }
 }

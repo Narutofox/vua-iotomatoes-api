@@ -30,7 +30,15 @@ namespace IoTomatoes.Application.Services
             {
                 rule.DateCreated = DateTime.Now;
                 rule.DateModified = DateTime.Now;
-                rule.Name = _sensorTypeRepository.FindBy(x => x.Code.ToUpper().Trim() == rule.Code.ToUpper().Trim()).Name;
+                if (_sensorTypeRepository.ExistsBy(x => x.Code.ToUpper().Trim() == rule.Code.ToUpper().Trim()))
+                {
+                    rule.Name = _sensorTypeRepository.FindBy(x => x.Code.ToUpper().Trim() == rule.Code.ToUpper().Trim()).Name;
+                }
+                else
+                {
+                    rule.Name = ruleDTO.Code;
+                }
+                
 
                 _ruleRepository.Add(rule);
                 _ruleRepository.Commit();
@@ -84,7 +92,15 @@ namespace IoTomatoes.Application.Services
                 }
 
                 _mapper.Map(ruleDTO, rule);
-                rule.Name = _sensorTypeRepository.FindBy(x => x.Code.ToUpper().Trim() == rule.Code.ToUpper().Trim()).Name;
+                if (_sensorTypeRepository.ExistsBy(x => x.Code.ToUpper().Trim() == rule.Code.ToUpper().Trim()))
+                {
+                    rule.Name = _sensorTypeRepository.FindBy(x => x.Code.ToUpper().Trim() == rule.Code.ToUpper().Trim()).Name;
+                }
+                else
+                {
+                    rule.Name = ruleDTO.Code;
+                }
+                
                 rule.DateModified = DateTime.Now;
 
                 _ruleRepository.Update(rule);

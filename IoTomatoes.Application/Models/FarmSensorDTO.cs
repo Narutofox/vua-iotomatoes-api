@@ -6,7 +6,7 @@ namespace IoTomatoes.Application.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
+        public int FarmId { get; set; }
         public int SensorId { get; set; }
-
     }
 }

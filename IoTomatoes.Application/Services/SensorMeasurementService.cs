@@ -36,6 +36,14 @@ namespace IoTomatoes.Application.Services
             return null;
         }
 
+        public void Create(SensorMeasurmentDTO model)
+        {
+            model.DateCreated = DateTime.Now;
+            FarmSensorMeasurement createSensorMeasurement = _mapper.Map<FarmSensorMeasurement>(model);
+            _farmSensorMeasurementRepository.Add(createSensorMeasurement);
+            _farmSensorMeasurementRepository.Commit();
+        }
+
         public void CreateFromDictionary(Dictionary<int, decimal> sensorMeasurementsDictionary)
         {
             foreach (var key in sensorMeasurementsDictionary.Keys)
@@ -75,75 +83,93 @@ namespace IoTomatoes.Application.Services
                         SensorTypeId = farmSensor.Sensor.SensorTypeId
                     };
 
-
-                    if (dateFrom.HasValue && dateTo.HasValue)
+                    foreach (var measurement in measurements)
                     {
-                        var timeSpan = dateTo.Value - dateFrom.Value;
-
-                        if (timeSpan.Days % n == 0)
+                        string label = "";
+                        if (measurements
+                            .Any(x => x.DateCreated.Value.Date != 
+                            measurement.DateCreated.Value.Date) || dateTo.HasValue ||
+                            (dateFrom.HasValue && dateFrom.Value.Date != DateTime.Now.Date))
                         {
-                            isOnlyDays = true;
-                        }
-
-                        double hours = Math.Round(timeSpan.TotalHours) / n;
-                        var dT = (int)hours;
-
-                        for (int i = 0; i < n; i++)
-                        {
-                            string dateFormat = "dd.MM.yyyy HH:mm";
-
-                            if (isOnlyDays)
-                            {
-                                dateFormat = "dd.MM.yyyy";
-                            }
-
-                            var dateFromWithAddedHours = dateFrom.Value.AddHours(dT * i);
-                            string label = dateFromWithAddedHours.ToString(dateFormat);
-                            chartMeasurement.Labels.Add(label);
-
-                            int index = i;
-                            var decimalMeasurements = measurements
-                                .Where(m => m.DateCreated != null && m.DateCreated.Value >= dateFromWithAddedHours && (m.DateCreated.Value < dateFrom.Value.AddHours(dT * (index + 1))))
-                                .Select(m => m.Value)
-                                .DefaultIfEmpty();
-
-                            decimal measurement = decimal.Round(decimalMeasurements.Average(), 2, MidpointRounding.AwayFromZero);
-                            chartMeasurement.Data.Add(measurement);
-                        }
-                    }
-                    else if (dateFrom.HasValue)
-                    {
-                        int dT;
-
-                        if (DateTime.Today == dateFrom)
-                        {
-                            var timeSpan = DateTime.Now - dateFrom.Value;
-                            var minutes = timeSpan.TotalMinutes / n;
-                            dT = (int)minutes;
+                            label = measurement.DateCreated.Value.ToString("dd.MM.yyyy HH:mm");
                         }
                         else
                         {
-                            dT = 1440 / n;
+                            label = measurement.DateCreated.Value.ToString("HH:mm");
                         }
-
-                        for (int i = 0; i < n; i++)
-                        {
-                            var dateFromWithAddedMinutes = dateFrom.Value.AddMinutes(dT * i);
-                           
-                            var index = i;
-                            var decimalMeasurements = measurements
-                                .Where(m => m.DateCreated != null && m.DateCreated.Value >= dateFromWithAddedMinutes && (m.DateCreated.Value < dateFrom.Value.AddMinutes(dT * (index + 1))))
-                                .Select(m => m.Value)
-                                .DefaultIfEmpty();
-
-                            decimal measurement = 0;
-
-                            string label = dateFromWithAddedMinutes.ToString("HH:mm");
-                            chartMeasurement.Labels.Add(label);
-                            measurement = decimal.Round(decimalMeasurements.Average(), 2, MidpointRounding.AwayFromZero);
-                            chartMeasurement.Data.Add(measurement);
-                        }
+                         
+                        chartMeasurement.Labels.Add(label);
+                        chartMeasurement.Data.Add(measurement.Value);
                     }
+
+                    //if (dateFrom.HasValue && dateTo.HasValue)
+                    //{
+                    //    var timeSpan = dateTo.Value - dateFrom.Value;
+
+                    //    if (timeSpan.Days % n == 0)
+                    //    {
+                    //        isOnlyDays = true;
+                    //    }
+
+                    //    double hours = Math.Round(timeSpan.TotalHours) / n;
+                    //    var dT = (int)hours;
+
+                    //    for (int i = 0; i < n; i++)
+                    //    {
+                    //        string dateFormat = "dd.MM.yyyy HH:mm";
+
+                    //        if (isOnlyDays)
+                    //        {
+                    //            dateFormat = "dd.MM.yyyy";
+                    //        }
+
+                    //        var dateFromWithAddedHours = dateFrom.Value.AddHours(dT * i);
+                    //        string label = dateFromWithAddedHours.ToString(dateFormat);
+                    //        chartMeasurement.Labels.Add(label);
+
+                    //        int index = i;
+                    //        var decimalMeasurements = measurements
+                    //            .Where(m => m.DateCreated != null && m.DateCreated.Value >= dateFromWithAddedHours && (m.DateCreated.Value < dateFrom.Value.AddHours(dT * (index + 1))))
+                    //            .Select(m => m.Value)
+                    //            .DefaultIfEmpty();
+
+                    //        decimal measurement = decimal.Round(decimalMeasurements.Average(), 2, MidpointRounding.AwayFromZero);
+                    //        chartMeasurement.Data.Add(measurement);
+                    //    }
+                    //}
+                    //else if (dateFrom.HasValue)
+                    //{
+                    //    int dT;
+
+                    //    if (DateTime.Today == dateFrom)
+                    //    {
+                    //        var timeSpan = DateTime.Now - dateFrom.Value;
+                    //        var minutes = timeSpan.TotalMinutes / n;
+                    //        dT = (int)minutes;
+                    //    }
+                    //    else
+                    //    {
+                    //        dT = 1440 / n;
+                    //    }
+
+                    //    for (int i = 0; i < n; i++)
+                    //    {
+                    //        var dateFromWithAddedMinutes = dateFrom.Value.AddMinutes(dT * i);
+                           
+                    //        var index = i;
+                    //        var decimalMeasurements = measurements
+                    //            .Where(m => m.DateCreated != null && m.DateCreated.Value >= dateFromWithAddedMinutes && (m.DateCreated.Value < dateFrom.Value.AddMinutes(dT * (index + 1))))
+                    //            .Select(m => m.Value)
+                    //            .DefaultIfEmpty();
+
+                    //        decimal measurement = 0;
+
+                    //        string label = dateFromWithAddedMinutes.ToString("HH:mm");
+                    //        chartMeasurement.Labels.Add(label);
+                    //        measurement = decimal.Round(decimalMeasurements.Average(), 2, MidpointRounding.AwayFromZero);
+                    //        chartMeasurement.Data.Add(measurement);
+                    //    }
+                    //}
 
                     farmMeasurements.Add(chartMeasurement);
                 }

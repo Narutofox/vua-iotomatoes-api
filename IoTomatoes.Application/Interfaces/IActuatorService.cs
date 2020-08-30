@@ -7,5 +7,6 @@ namespace IoTomatoes.Application.Interfaces
     {
         List<ActuatorDTO> GetAll();
         List<ListItemDTO> GetList();
+        List<ActuatorDTO> GetByFarm(int id);
     }
 }

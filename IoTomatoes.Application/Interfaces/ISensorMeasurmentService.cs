@@ -12,5 +12,7 @@ namespace IoTomatoes.Application.Interfaces
         Dictionary<int, decimal> GetLastFarmMeasurements(int farmId);
 
         List<ChartMeasurementDTO> GetLastFarmMeasurements2(int farmId);
+
+        void Create(SensorMeasurmentDTO model);
     }
 }

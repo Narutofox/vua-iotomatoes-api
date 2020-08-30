@@ -11,5 +11,7 @@ namespace IoTomatoes.Application.Interfaces
         void Update(SensorDTO sensor);
         void Create(SensorDTO sensor);
         List<ListItemDTO> GetList();
+
+        IList<SensorDTO> GetBy(IEnumerable<int> sensorIds);
     }
 }

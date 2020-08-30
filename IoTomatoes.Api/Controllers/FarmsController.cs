@@ -5,6 +5,7 @@ using IoTomatoes.Application.Models;
 using IoTomatoes.Application.Models.Farm;
 using IoTomatoes.Application.Models.RuleSet;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace IoTomatoes.Api.Controllers
 {
@@ -14,15 +15,18 @@ namespace IoTomatoes.Api.Controllers
         private readonly IFarmService _farmService;
         private readonly IRuleSetService _ruleSetService;
         private readonly IRuleService _ruleService;
+        private readonly IActuatorService _actuatorService;
 
         public FarmsController(
             IFarmService farmService,
             IRuleSetService ruleSetService,
-            IRuleService ruleService)
+            IRuleService ruleService,
+            IActuatorService actuatorService)
         {
             _farmService = farmService;
             _ruleSetService = ruleSetService;
             _ruleService = ruleService;
+            _actuatorService = actuatorService;
         }
 
         // GET api/farms
@@ -73,25 +77,36 @@ namespace IoTomatoes.Api.Controllers
         }
 
         [HttpPost("{id}/createOrUpdateRules")]
-        public IActionResult CreateOrUpdateRules(int id, [FromBody] List<RuleDTO> rules)
+        public IActionResult CreateOrUpdateRules(int id, [FromBody] List<ConditionsForRules> conditions)
         {
             RuleSetDTO ruleSet = _ruleSetService.GetByFarm(id);
+            List<ActuatorDTO> actuators = _actuatorService.GetByFarm(id);
+            ConditionsForRules condition = new ConditionsForRules();
+            condition.SetModelFromList(conditions);
 
-            if (ruleSet != null && rules.TrueForAll(x=>!string.IsNullOrEmpty(x.Code)))
+            if (ruleSet != null && conditions.Any())
             {
-                
-                foreach (var rule in rules)
+                string code = "ALL";
+
+
+                if (ruleSet.Rules.Any(x => x.Code == code))
                 {
-                    rule.RuleSetId = ruleSet.Id;
-                    rule.Active = !string.IsNullOrEmpty(rule.Conditions);
-                    if (ruleSet.Rules.Any(x=>x.Code == rule.Code))
+                    RuleDTO rule = ruleSet.Rules.First(x => x.Code == code);
+                    ConditionsForRules existingConditions = JsonConvert.DeserializeObject<ConditionsForRules>(rule.Conditions);
+                    existingConditions.SetModelFromList(conditions);
+                    rule.Conditions = JsonConvert.SerializeObject(existingConditions);
+                    _ruleService.Update(rule);
+                }
+                else
+                {
+                    RuleDTO rule = new RuleDTO
                     {
-                        _ruleService.Update(rule);
-                    }
-                    else
-                    {
-                        _ruleService.Create(rule);
-                    }
+                        Code = "ALL",
+                        Conditions = JsonConvert.SerializeObject(condition),
+                        RuleSetId = ruleSet.Id,
+                        Active = true
+                    };
+                    _ruleService.Create(rule);
                 }
             }
 

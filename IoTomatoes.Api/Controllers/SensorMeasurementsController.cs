@@ -6,6 +6,7 @@ using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IoTomatoes.Api.Controllers
 {
@@ -14,16 +15,19 @@ namespace IoTomatoes.Api.Controllers
     public class SensorMeasurementsController : ControllerBase
     {
         private readonly ISensorMeasurmentService _sensorMeasurementService;
+        private readonly IFarmSensorService _farmSensorService;
+        private readonly ISensorService _sensorService;
         private readonly IHubContext<SensorMeasurementHub> _sensorMeasurementHubContext;
-        private readonly IFarmService _farmService;
 
         public SensorMeasurementsController(ISensorMeasurmentService sensorMeasurementService,
             IHubContext<SensorMeasurementHub> sensorMeasurementHub,
-            IFarmService farmService)
+            IFarmSensorService farmSensorService,
+            ISensorService sensorService)
         {
             _sensorMeasurementService = sensorMeasurementService;
             _sensorMeasurementHubContext = sensorMeasurementHub;
-            _farmService = farmService;
+            _farmSensorService = farmSensorService;
+            _sensorService = sensorService;
         }
 
         [HttpGet("{sensorId}")]
@@ -45,14 +49,56 @@ namespace IoTomatoes.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Dictionary<int, decimal> farmSensorsMeasurements) {
-            _sensorMeasurementService.CreateFromDictionary(farmSensorsMeasurements);
-
-            int[] farmIds =_farmService.GetFarmIdsByFarmSensoreIds(farmSensorsMeasurements.Select(x=>x.Key).ToArray());
-
-            foreach (int farmId in farmIds)
+        public IActionResult Post([FromBody] FarmaSensorMeasurmentDTO model) 
+        {
+            List<FarmSensorDTO> farmSensors = _farmSensorService.GetFarmSensors(model.FarmId);
+            _sensorMeasurementHubContext.Clients.Group("FarmId:" + model.FarmId)
+                .SendAsync("SensorMeasurementNotification", model.FarmId);
+            IList<SensorDTO> sensors = _sensorService.GetBy(farmSensors.Select(x=>x.SensorId));
+            /*
+             TODO ovo je ok s obzirm da je trenutno jedna farma(kutija)= jedna biljka, 
+                ali ako se to promjeni onda se mora kao parametar modela prosljediti točan id senzora 
+                i u bazi negdje zapisati koji senzor je za koju biljku
+            */
+            if (model.Light.HasValue &&
+                sensors.Any(x=>x.SensorTypeCode.Trim().StartsWith("LGT")))
             {
-                _sensorMeasurementHubContext.Clients.Group("FarmId:" + farmId).SendAsync("SensorMeasurementNotification", farmId);
+                SensorDTO sensorDTO = sensors.First(x => x.Code.Trim().StartsWith("LGT"));
+                _sensorMeasurementService.Create(new SensorMeasurmentDTO 
+                { 
+                    FarmSensorId = farmSensors.First(x => x.SensorId == sensorDTO.Id).Id,
+                    Value = model.Light.Value
+                });
+            }
+            if (model.Temperature.HasValue &&
+                sensors.Any(x => x.SensorTypeCode.Trim().StartsWith("TMP")))
+            {
+                SensorDTO sensorDTO = sensors.First(x => x.Code.Trim().StartsWith("TMP"));
+                _sensorMeasurementService.Create(new SensorMeasurmentDTO
+                {
+                    FarmSensorId = farmSensors.First(x => x.SensorId == sensorDTO.Id).Id,
+                    Value = model.Temperature.Value
+                });
+            }
+            if (model.AirHumidity.HasValue &&
+                    sensors.Any(x => x.SensorTypeCode.Trim().StartsWith("AHY")))
+            {
+                SensorDTO sensorDTO = sensors.First(x => x.Code.Trim().StartsWith("AHY"));
+                _sensorMeasurementService.Create(new SensorMeasurmentDTO
+                {
+                    FarmSensorId = farmSensors.First(x => x.SensorId == sensorDTO.Id).Id,
+                    Value = model.AirHumidity.Value
+                });
+            }
+            if (model.SoilHumidity.HasValue &&
+                    sensors.Any(x => x.SensorTypeCode.Trim().StartsWith("SHY")))
+            {
+                SensorDTO sensorDTO = sensors.First(x => x.Code.Trim().StartsWith("SHY"));
+                _sensorMeasurementService.Create(new SensorMeasurmentDTO
+                {
+                    FarmSensorId = farmSensors.First(x => x.SensorId == sensorDTO.Id).Id,
+                    Value = model.SoilHumidity.Value
+                });
             }
             return Ok();
         }

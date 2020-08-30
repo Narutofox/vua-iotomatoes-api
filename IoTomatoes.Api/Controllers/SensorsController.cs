@@ -11,12 +11,10 @@ namespace IoTomatoes.Api.Controllers
     public class SensorsController : ControllerBase
     {
         private readonly ISensorService _sensorService;
-        private readonly ISensorTypeService _sensorTypeService;
 
-        public SensorsController(ISensorService sensorService, ISensorTypeService sensorTypeService)
+        public SensorsController(ISensorService sensorService)
         {
             _sensorService = sensorService;
-            _sensorTypeService = sensorTypeService;
         }
 
         [HttpGet]
@@ -31,23 +29,25 @@ namespace IoTomatoes.Api.Controllers
             return _sensorService.GetList();
         }
 
-        [HttpGet("sensorType/{name}")]
-        public SensorType GetSensorType(string name)
-        {
-            return _sensorTypeService.Get(name);
-        }
 
-        [HttpGet("sensorTypes")]
-        public List<SensorType> GetSensorTypes()
-        {
-            return _sensorTypeService.GetAll();
-        }
 
         [HttpGet("{id}")]
         public SensorDTO GetSensor(int id) {
             return _sensorService.Get(id);
         }
+        [HttpPost]
+        public IActionResult Post([FromBody] SensorDTO model)
+        {
+            _sensorService.Create(model);
+            return Ok();
+        }
 
+        [HttpPut]
+        public IActionResult Put([FromBody] SensorDTO model)
+        {
+            _sensorService.Update(model);
+            return Ok();
+        }
 
     }
 }

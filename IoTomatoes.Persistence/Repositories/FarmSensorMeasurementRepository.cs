@@ -4,6 +4,7 @@ using IoTomatoes.Persistence.Commons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace IoTomatoes.Persistence.Repositories
 {
@@ -56,19 +57,24 @@ namespace IoTomatoes.Persistence.Repositories
         public List<FarmSensorMeasurement> GetSensorMeasurements(int farmSensorId, DateTime? dateFrom, DateTime? dateTo)
         {
             var sensorQuery = Context.FarmSensorMeasurements
-                    .Where(fsm => fsm.FarmSensorId == farmSensorId);
+                    .Where(fsm => fsm.FarmSensorId == farmSensorId && fsm.DateCreated.HasValue);
 
             if (dateFrom.HasValue && dateTo.HasValue)
             {
-                sensorQuery = sensorQuery.Where(x => x.DateCreated >= dateFrom.Value && x.DateCreated <= dateTo.Value);
+                sensorQuery = sensorQuery.Where(x => x.DateCreated.Value.Date >= dateFrom.Value.Date && x.DateCreated.Value.Date <= dateTo.Value.Date);
             } 
             else if(dateFrom.HasValue && !dateTo.HasValue)
             {
-                sensorQuery = sensorQuery.Where(x => x.DateCreated.Value.Date.Equals(dateFrom.Value.Date));
+                sensorQuery = sensorQuery.Where(x => x.DateCreated.Value.Date >= dateFrom.Value.Date);
             }
 
-            var farmSensorMeasurements = sensorQuery
-                .OrderBy(x => x.DateCreated)
+            var farmSensorMeasurements = sensorQuery.GroupBy(x => new
+            {
+                Minute = x.DateCreated.Value.Minute,
+                Hour = x.DateCreated.Value.Hour
+            }).OrderBy(x => x.Key.Hour)
+            .OrderBy(x => x.Key.Minute).Select(x=>x.FirstOrDefault())
+            .OrderBy(x => x.DateCreated)
                 .ToList();
 
             return farmSensorMeasurements;

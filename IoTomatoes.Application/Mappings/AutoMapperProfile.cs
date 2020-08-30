@@ -44,7 +44,7 @@ namespace IoTomatoes.Application.Mappings
             CreateMap<User, UserDTO>().ReverseMap();
 
             CreateMap<CreateUserDTO, User>()
-                .ForMember(src => src.Password, opt => opt.MapFrom(x => HashHelper.CreateMd5(x.Password)));
+                .ForMember(src => src.Password, opt => opt.MapFrom(x => HashHelper.ComputeSha256Hash(x.Password)));
 
             CreateMap<Country, CountryDTO>().ReverseMap();
             CreateMap<City, CityDTO>()
@@ -87,6 +87,34 @@ namespace IoTomatoes.Application.Mappings
             CreateMap<Rule, ListItemDTO>()
                 .ForMember(x => x.Text, opt => opt.MapFrom(x => $"{x.Name} ({x.Code})"))
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
+
+            CreateMap<FarmActuatorDTO, FarmActuator>()
+                .ForMember(src => src.ActuatorId, opt => opt.MapFrom(x => x.ActuatorId));
+
+            CreateMap<FarmPlantDTO, FarmPlant>()
+              .ForMember(src => src.PlantId, opt => opt.MapFrom(x => x.PlantId));
+
+            CreateMap<SensorType, ListItemDTO>()
+               .ForMember(x => x.Text, opt => opt.MapFrom(x => $"{x.Code} ({x.Name})"))
+               .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
+
+            CreateMap<SensorType,SensorTypeDTO>().ReverseMap();
+
+            CreateMap<FarmSensor,FarmSensorDTO>().ReverseMap();
+
+            CreateMap<MeasuringUnit, ListItemDTO>()
+               .ForMember(x => x.Text, opt => opt.MapFrom(x => $"{x.Code} ({x.Name})"))
+               .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Id));
+
+            CreateMap<MeasuringUnitDTO, MeasuringUnit>()
+           .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+           .ForMember(x => x.Code, opt => opt.MapFrom(x => x.Code))
+           .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name));
+
+            CreateMap<MeasuringUnit, MeasuringUnitDTO>()
+          .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Id))
+          .ForMember(x => x.Code, opt => opt.MapFrom(x => x.Code))
+          .ForMember(x => x.Name, opt => opt.MapFrom(x => x.Name));
 
         }
     }

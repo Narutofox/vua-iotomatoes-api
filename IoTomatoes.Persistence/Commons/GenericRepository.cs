@@ -43,6 +43,11 @@ namespace IoTomatoes.Persistence.Commons
             _dbSet.Remove(entity);
         }
 
+        public virtual void RemoveRange(IEnumerable<T> entity)
+        {
+            _dbSet.RemoveRange(entity);
+        }
+
         public virtual void Update(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
@@ -56,6 +61,16 @@ namespace IoTomatoes.Persistence.Commons
         public virtual int Commit()
         {
             return _context.SaveChanges();
+        }
+
+        public virtual bool ExistsBy(Expression<Func<T, bool>> expression)
+        {
+            return _dbSet.Any(expression);
+        }
+
+        public virtual IQueryable<T> SelectBy(Expression<Func<T, bool>> expression)
+        {
+            return _dbSet.Where(expression);
         }
     }
 }

@@ -48,9 +48,12 @@ namespace IoTomatoes.Application.Services
                 .ToList();
         }
 
+
         public void Update(SensorDTO sensor)
         {
-            var updateSensor = _mapper.Map<Sensor>(sensor);
+            var updateSensor = _sensorRepository.Get(sensor.Id);
+            _mapper.Map(sensor, updateSensor);
+            updateSensor.DateModified = DateTime.Now;
 
             _sensorRepository.Update(updateSensor);
             _sensorRepository.Commit();
@@ -74,6 +77,13 @@ namespace IoTomatoes.Application.Services
         {
             return _sensorRepository.GetAll()
                 .Select(sensor => _mapper.Map<ListItemDTO>(sensor))
+                .ToList();
+        }
+
+        public IList<SensorDTO> GetBy(IEnumerable<int> sensorIds)
+        {
+            return _sensorRepository.SelectBy(x=> sensorIds.Contains(x.Id))
+                 .Select(sensor => _mapper.Map<SensorDTO>(sensor))
                 .ToList();
         }
     }
