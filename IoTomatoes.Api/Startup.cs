@@ -16,6 +16,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using IoTomatoes.Api.Hubs;
 using IoTomatoes.Api.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace IoTomatoes.Api
 {
@@ -121,6 +122,8 @@ namespace IoTomatoes.Api
                     serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

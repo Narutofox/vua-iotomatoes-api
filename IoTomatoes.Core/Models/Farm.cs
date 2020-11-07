@@ -16,6 +16,7 @@ namespace IoTomatoes.Domain.Models
         public decimal? Longitude { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
+        public string IpAddress { get; set; }
 
         public virtual City City { get; set; }
         public virtual User User { get; set; }

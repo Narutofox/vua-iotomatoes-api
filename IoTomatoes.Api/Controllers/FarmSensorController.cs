@@ -19,8 +19,8 @@ namespace IoTomatoes.Api.Controllers
         [HttpGet]
         public IList<FarmSensorDTO> FarmSensors(int farmId)
         {
-            var t = _farmSensorService.GetFarmSensors(farmId);
-            return t;
+            IList<FarmSensorDTO> farmSensors = _farmSensorService.GetFarmSensors(farmId);
+            return farmSensors;
         }
 
         [HttpPut("{id}")]

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using IoTomatoes.Api.Hubs;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IoTomatoes.Api.Controllers
 {
@@ -14,20 +15,26 @@ namespace IoTomatoes.Api.Controllers
     [ApiController]
     public class SensorMeasurementsController : ControllerBase
     {
+        private readonly IFarmService _farmService;
         private readonly ISensorMeasurmentService _sensorMeasurementService;
         private readonly IFarmSensorService _farmSensorService;
         private readonly ISensorService _sensorService;
         private readonly IHubContext<SensorMeasurementHub> _sensorMeasurementHubContext;
-
-        public SensorMeasurementsController(ISensorMeasurmentService sensorMeasurementService,
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public SensorMeasurementsController(
+            ISensorMeasurmentService sensorMeasurementService,
             IHubContext<SensorMeasurementHub> sensorMeasurementHub,
             IFarmSensorService farmSensorService,
-            ISensorService sensorService)
+            ISensorService sensorService,
+            IFarmService farmService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _sensorMeasurementService = sensorMeasurementService;
             _sensorMeasurementHubContext = sensorMeasurementHub;
             _farmSensorService = farmSensorService;
             _sensorService = sensorService;
+            _farmService = farmService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet("{sensorId}")]
@@ -55,11 +62,7 @@ namespace IoTomatoes.Api.Controllers
             _sensorMeasurementHubContext.Clients.Group("FarmId:" + model.FarmId)
                 .SendAsync("SensorMeasurementNotification", model.FarmId);
             IList<SensorDTO> sensors = _sensorService.GetBy(farmSensors.Select(x=>x.SensorId));
-            /*
-             TODO ovo je ok s obzirm da je trenutno jedna farma(kutija)= jedna biljka, 
-                ali ako se to promjeni onda se mora kao parametar modela prosljediti točan id senzora 
-                i u bazi negdje zapisati koji senzor je za koju biljku
-            */
+
             if (model.Light.HasValue &&
                 sensors.Any(x=>x.SensorTypeCode.Trim().StartsWith("LGT")))
             {
@@ -100,8 +103,24 @@ namespace IoTomatoes.Api.Controllers
                     Value = model.SoilHumidity.Value
                 });
             }
+
+           FarmDTO farmDTO = _farmService.Get(model.FarmId);
+           farmDTO.IpAddress = GetClientIpv4();
+            _farmService.Update(farmDTO);
             return Ok();
+        }
+
+        private string GetClientIpv4()
+        {
+             return _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
 
     }
 }
+
+
+/*
+ TODO ovo je ok s obzirm da je trenutno jedna farma(kutija)= jedna biljka, 
+    ali ako se to promjeni onda se mora kao parametar modela prosljediti točan id senzora 
+    i u bazi negdje zapisati koji senzor je za koju biljku
+*/

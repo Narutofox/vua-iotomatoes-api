@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using IoTomatoes.Application.Interfaces;
 using IoTomatoes.Application.Models;
 using IoTomatoes.Application.Models.Farm;
@@ -16,17 +17,20 @@ namespace IoTomatoes.Api.Controllers
         private readonly IRuleSetService _ruleSetService;
         private readonly IRuleService _ruleService;
         private readonly IActuatorService _actuatorService;
+        private readonly IHttpClientFactory _clientFactory;
 
         public FarmsController(
             IFarmService farmService,
             IRuleSetService ruleSetService,
             IRuleService ruleService,
-            IActuatorService actuatorService)
+            IActuatorService actuatorService,
+            IHttpClientFactory clientFactory)
         {
             _farmService = farmService;
             _ruleSetService = ruleSetService;
             _ruleService = ruleService;
             _actuatorService = actuatorService;
+            _clientFactory = clientFactory;
         }
 
         // GET api/farms
@@ -108,9 +112,28 @@ namespace IoTomatoes.Api.Controllers
                     };
                     _ruleService.Create(rule);
                 }
+
+                FarmDTO farmDTO = _farmService.Get(id);
+                if (!string.IsNullOrEmpty(farmDTO.IpAddress))
+                {
+                    _ = ContactFarmsMicrocontroller(farmDTO.IpAddress);
+                }
             }
 
             return Ok();
+        }
+
+        private async System.Threading.Tasks.Task ContactFarmsMicrocontroller(string ipAddress)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, ipAddress);
+            var client = _clientFactory.CreateClient();
+
+            var response = await client.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                //TODO Negdje zapisati da zahtjev nije uspio
+            }
         }
 
         // POST api/farms

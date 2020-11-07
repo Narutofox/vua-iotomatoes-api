@@ -135,5 +135,14 @@ namespace IoTomatoes.Application.Services
                  select farm.Id
                 ).Distinct().ToArray();
         }
+
+        public void Update(FarmDTO farm)
+        {
+            var dbFarm = _farmRepository.Get(farm.Id);
+            _mapper.Map(farm, dbFarm);
+
+            _farmRepository.Update(dbFarm);
+            _farmRepository.Commit();
+        }
     }
 }

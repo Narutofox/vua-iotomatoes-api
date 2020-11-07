@@ -22,5 +22,8 @@ namespace IoTomatoes.Application.Models
         public List<int> ActuatorIds { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
+        public string IpAddress { get; set; }
+
+        public string MyProperty { get; set; }
     }
 }
